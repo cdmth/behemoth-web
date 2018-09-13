@@ -2,6 +2,7 @@ import * as React from 'react'
 import gql from 'graphql-tag'
 import { Query } from 'react-apollo'
 import CustomerSingle from './CustomerSingle'
+import { ICustomerState } from '../../interfaces'
 
 const getCustomers = gql`
   {
@@ -11,16 +12,16 @@ const getCustomers = gql`
     }
   }
 `
-class Customer extends React.Component {
+class Customer extends React.Component<{}, ICustomerState> {
   constructor(props: any) {
     super(props)
 
     this.state = {
-      selectedCustomerId: ''
+      selectedCustomerId: ""
     }
   }
 
-  openCustomer = (id: string) => {
+  public openCustomer = (id: string) => {
     this.setState({
       selectedCustomerId: id
     })
@@ -50,8 +51,7 @@ class Customer extends React.Component {
           )
         }}
       </Query>
-      {'@ts-ignore'}
-      <CustomerSingle id={this.state.selectedCustomerId}/>
+      <CustomerSingle selectedCustomerId={this.state.selectedCustomerId} />
     </div>
     )
   }
