@@ -1,10 +1,10 @@
 import * as React from 'react'
 import gql from 'graphql-tag'
-import { Query } from 'react-apollo'
+import { Subscription } from 'react-apollo'
 import CustomerSingle from './CustomerSingle'
 import { ICustomerState } from '../../interfaces'
 
-const getCustomers = gql`
+const customers = gql`
   {
     customers {
       _id
@@ -24,14 +24,15 @@ class Customer extends React.Component<{}, ICustomerState> {
   public render() {
     return (
     <div>
-      <Query query={getCustomers}>
+      <Subscription subscription={customers}>
         {({ loading, error, data }) => {
           if (loading) {
+            console.log("loading")
             return 'Loading...'
           }
   
           if (error) {
-            return `Error! ${error.message}`
+            return `Error! ${error}`
           }
   
           return (
@@ -44,7 +45,7 @@ class Customer extends React.Component<{}, ICustomerState> {
             </ul>
           )
         }}
-      </Query>
+      </Subscription>
       <CustomerSingle selectedCustomerId={this.state.selectedCustomerId} />
     </div>
     )
