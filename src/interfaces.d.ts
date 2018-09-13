@@ -1,9 +1,13 @@
 interface ICustomerSingleProps {
-  selectedCustomerId: string;
+  selectedCustomerId: string
+}
+
+interface ICustomerSingleState {
+  name: string
 }
 
 interface ICustomerState {
-  selectedCustomerId: string;
+  selectedCustomerId: string
 }
 
-export { ICustomerSingleProps, ICustomerState}
+export { ICustomerSingleProps, ICustomerState, ICustomerSingleState}
