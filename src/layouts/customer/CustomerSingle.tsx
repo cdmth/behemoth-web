@@ -19,8 +19,16 @@ const updateCustomer = gql`
   }
 `
 
-class CustomerSingle extends React.Component<ICustomerSingleProps, ICustomerSingleState> {
+const deleteCustomer = gql`
+mutation deleteCustomer($_id: String!) {
+  deleteCustomer(_id: $_id) {
+    message
+  }
+}
+`
 
+class CustomerSingle extends React.Component<ICustomerSingleProps, ICustomerSingleState> {
+  
   public render() {
     if (this.props.selectedCustomerId === '') {
       return 'valitse homo'
@@ -40,23 +48,43 @@ class CustomerSingle extends React.Component<ICustomerSingleProps, ICustomerSing
           let nameInput : any
 
           return (
-            <Mutation mutation={updateCustomer}>
-              {update => (
-                <div>
-                  <p>{data.customer.name}</p>
-                  <form
-                    onSubmit={event => {
-                      event.preventDefault()
-                      update({ 
-                        variables: {_id: this.props.selectedCustomerId, name: nameInput.value}})
-                    }}
-                  >
-                    <input ref={node => {nameInput=node}}/>
-                    <button type="submit">Update customer</button>
-                  </form>
-                </div>
-              )}
-            </Mutation>
+            <div>
+              <Mutation mutation={updateCustomer}>
+                {update => (
+                  <div>
+                    <p>{data.customer.name}</p>
+                    <form
+                      onSubmit={event => {
+                        event.preventDefault()
+                        try {
+                          update({ 
+                            variables: {_id: this.props.selectedCustomerId, name: nameInput.value}})
+                        } catch (error) {
+                          console.log(error)
+                        }
+                      }}
+                    >
+                      <input ref={node => {nameInput=node}}/>
+                      <button type="submit">Update customer</button>
+                    </form>
+                  </div>
+                )}
+              </Mutation>
+              <Mutation mutation={deleteCustomer}>
+                {(deleteC) => (
+                  <div>
+                    <form
+                      onSubmit={e => {
+                        e.preventDefault();
+                        deleteC({ variables: { _id: this.props.selectedCustomerId } });
+                      }}
+                    >
+                      <button type="submit">Delete Customer</button>
+                    </form>
+                  </div>
+                )}
+              </Mutation>
+            </div>
           )
         }}
       </Query>
