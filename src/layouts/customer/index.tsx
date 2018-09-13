@@ -21,12 +21,6 @@ class Customer extends React.Component<{}, ICustomerState> {
     }
   }
 
-  public openCustomer = (id: string) => {
-    this.setState({
-      selectedCustomerId: id
-    })
-  }
-
   public render() {
     return (
     <div>
@@ -55,6 +49,13 @@ class Customer extends React.Component<{}, ICustomerState> {
     </div>
     )
   }
+
+  private openCustomer = (id: string) => {
+    this.setState({
+      selectedCustomerId: id
+    })
+  }
+  
 }
 
 export default Customer
