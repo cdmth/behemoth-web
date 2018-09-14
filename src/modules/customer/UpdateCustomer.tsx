@@ -18,7 +18,7 @@ export const UpdateCustomer : React.SFC<IUpdateCustomerProps> = (props) => {
     <Mutation mutation={updateCustomer}>
     {update => (
       <div>
-        <p>{name}</p>
+        <p>{props.name}</p>
         <form
           onSubmit={event => {
             event.preventDefault()
