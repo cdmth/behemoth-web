@@ -50,7 +50,6 @@ class Customer extends React.Component<{}, ICustomerState> {
             unsubscribe = subscribeToMore({
               document: customersSubscription,
               updateQuery: (prev, { subscriptionData }) => {
-                console.log('nbbs')
                 if (!subscriptionData) {
                   return prev
                 }
