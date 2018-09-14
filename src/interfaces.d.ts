@@ -14,9 +14,13 @@ interface IDeleteCustomerProps {
   selectedCustomerId: string
 }
 
+interface IGetCustomerProps {
+  openCustomer: any
+}
+
 interface IUpdateCustomerProps {
   selectedCustomerId: string
   name: string
 }
 
-export { ISingleCustomerProps, ISingleCustomerState, IListCustomerState, IDeleteCustomerProps, IUpdateCustomerProps}
+export { ISingleCustomerProps, ISingleCustomerState, IGetCustomerProps, IListCustomerState, IDeleteCustomerProps, IUpdateCustomerProps}
