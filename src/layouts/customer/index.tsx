@@ -1,10 +1,10 @@
 import * as React from 'react'
 import gql from 'graphql-tag'
-import { Subscription } from 'react-apollo'
+import { Query } from 'react-apollo'
 import CustomerSingle from './CustomerSingle'
 import { ICustomerState } from '../../interfaces'
 
-const customers = gql`
+const getCustomers = gql`
   {
     customers {
       _id
@@ -12,6 +12,18 @@ const customers = gql`
     }
   }
 `
+
+const customersSubscription = gql`
+  subscription {
+    customers {
+      _id
+      name
+    }
+  }
+`
+
+let unsubscribe: any = null
+
 class Customer extends React.Component<{}, ICustomerState> {
   constructor(props: any) {
     super(props)
@@ -24,28 +36,44 @@ class Customer extends React.Component<{}, ICustomerState> {
   public render() {
     return (
     <div>
-      <Subscription subscription={customers}>
-        {({ loading, error, data }) => {
+      <Query query={getCustomers}>
+        {({ loading, error, data, subscribeToMore }) => {
           if (loading) {
-            console.log("loading")
             return 'Loading...'
           }
   
           if (error) {
             return `Error! ${error}`
           }
-  
+
+          if (!unsubscribe) {
+            unsubscribe = subscribeToMore({
+              document: customersSubscription,
+              updateQuery: (prev, { subscriptionData }) => {
+                console.log('nbbs')
+                if (!subscriptionData) {
+                  return prev
+                }
+                return {
+                  customers: subscriptionData.data.customers
+                }
+              }
+            })
+          }
+
           return (
-            <ul>
-              {data.customers.map((customer:any) => (
-                <li key={customer._id} value={customer.name} onClick={() => this.openCustomer(customer._id)}>
-                  {customer.name}
-                </li>
-              ))}
-            </ul>
+            <div>
+              <ul>
+                {data.customers.map((customer:any) => (
+                  <li key={customer._id} value={customer.name} onClick={() => this.openCustomer(customer._id)}>
+                    {customer.name}
+                  </li>
+                ))}
+              </ul>
+            </div>
           )
         }}
-      </Subscription>
+      </Query>
       <CustomerSingle selectedCustomerId={this.state.selectedCustomerId} />
     </div>
     )
@@ -56,7 +84,7 @@ class Customer extends React.Component<{}, ICustomerState> {
       selectedCustomerId: id
     })
   }
-  
+
 }
 
 export default Customer
