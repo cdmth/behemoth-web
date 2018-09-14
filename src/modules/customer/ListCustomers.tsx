@@ -57,7 +57,7 @@ class ListCustomer extends React.Component<{}, IListCustomerState> {
         </div>
       </section>
       <div className="columns">
-        <div className="column is-3">
+        <div className="column customers-panel is-narrow">
 
         <div className="is-clearfix">
           <a className="button is-primary top-margin-20 is-pulled-right" onClick={() => this.addCustomerHandler()}>Add customer</a>
@@ -102,9 +102,13 @@ class ListCustomer extends React.Component<{}, IListCustomerState> {
           </nav>
         </div>
         <div className="column is-5">
-        {this.state.selectedCustomerId === 'add' ?
-          <CreateCustomer /> :
-            <SingleCustomer selectedCustomerId={this.state.selectedCustomerId} /> }
+          <div>
+            <div className="box top-margin-20">
+              {this.state.selectedCustomerId === 'add' ?
+                <CreateCustomer /> :
+                  <SingleCustomer selectedCustomerId={this.state.selectedCustomerId} /> }
+            </div>
+          </div>
         </div>
       </div>
     </div>

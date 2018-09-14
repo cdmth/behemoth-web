@@ -17,7 +17,6 @@ const createCustomer = () => {
     <Mutation mutation={addCustomer}>
       {(create, { data }) => (
         <div>
-          <div className="box top-margin-20">
             <p className="title">Create new customer</p>
             <form
             onSubmit={e => {
@@ -35,7 +34,6 @@ const createCustomer = () => {
             </div>
             <button className="button is-primary" type="submit">Add Customer</button>
           </form>
-          </div>
         </div>
       )}
     </Mutation>

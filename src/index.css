@@ -17,3 +17,8 @@
 .top-margin-10 {
   margin-top: 10px;
 }
+
+.customers-panel {
+  min-width: 200px;
+  max-width: 250px;
+}

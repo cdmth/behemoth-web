@@ -34,11 +34,9 @@ class SingleCustomer extends React.Component<ISingleCustomerProps, ISingleCustom
 
           return (
             <div>
-              <div className="box top-margin-20">
-                <p className="title">{data.customer.name}</p>
-                <UpdateCustomer selectedCustomerId={this.props.selectedCustomerId} name={data.customer.name}/>
-                <DeleteCustomer selectedCustomerId={this.props.selectedCustomerId} /> 
-              </div>
+              <p className="title">{data.customer.name}</p>
+              <UpdateCustomer selectedCustomerId={this.props.selectedCustomerId} name={data.customer.name}/>
+              <DeleteCustomer selectedCustomerId={this.props.selectedCustomerId} /> 
             </div>
           )
         }}
