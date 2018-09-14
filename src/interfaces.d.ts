@@ -1,13 +1,22 @@
-interface ICustomerSingleProps {
+interface ISingleCustomerProps {
   selectedCustomerId: string
 }
 
-interface ICustomerSingleState {
+interface ISingleCustomerState {
   name: string
 }
 
-interface ICustomerState {
+interface IListCustomerState {
   selectedCustomerId: string
 }
 
-export { ICustomerSingleProps, ICustomerState, ICustomerSingleState}
+interface IDeleteCustomerProps {
+  selectedCustomerId: string
+}
+
+interface IUpdateCustomerProps {
+  selectedCustomerId: string
+  name: string
+}
+
+export { ISingleCustomerProps, ISingleCustomerState, IListCustomerState, IDeleteCustomerProps, IUpdateCustomerProps}

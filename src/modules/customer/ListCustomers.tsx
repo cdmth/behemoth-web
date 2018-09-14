@@ -1,8 +1,8 @@
 import * as React from 'react'
 import gql from 'graphql-tag'
 import { Query } from 'react-apollo'
-import CustomerSingle from './CustomerSingle'
-import { ICustomerState } from '../../interfaces'
+import CustomerSingle from './SingleCustomer'
+import { IListCustomerState } from '../../interfaces'
 
 const getCustomers = gql`
   {
@@ -24,7 +24,7 @@ const customersSubscription = gql`
 
 let unsubscribe: any = null
 
-class Customer extends React.Component<{}, ICustomerState> {
+class Customer extends React.Component<{}, IListCustomerState> {
   constructor(props: any) {
     super(props)
 
