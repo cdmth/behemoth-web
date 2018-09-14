@@ -17,20 +17,25 @@ const createCustomer = () => {
     <Mutation mutation={addCustomer}>
       {(create, { data }) => (
         <div>
-          <form
+          <div className="box top-margin-20">
+            <p className="title">Create new customer</p>
+            <form
             onSubmit={e => {
               e.preventDefault();
               create({ variables: { name: input.value } });
               input.value = "";
             }}
-          >
-            <input
-              ref={node => {
-                input = node;
-              }}
-            />
-            <button type="submit">Add Customer</button>
+          > 
+            <div className="field">
+              <input className="input"
+                ref={node => {
+                  input = node;
+                }}
+              />
+            </div>
+            <button className="button is-primary" type="submit">Add Customer</button>
           </form>
+          </div>
         </div>
       )}
     </Mutation>

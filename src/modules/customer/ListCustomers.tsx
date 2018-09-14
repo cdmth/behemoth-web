@@ -31,8 +31,14 @@ class ListCustomer extends React.Component<{}, IListCustomerState> {
     super(props)
 
     this.state = {
-      selectedCustomerId: ""
+      selectedCustomerId: "add"
     }
+  }
+
+  public addCustomerHandler = () => {
+    this.setState({
+      selectedCustomerId: "add"
+    })
   }
 
   public render() {
@@ -54,7 +60,7 @@ class ListCustomer extends React.Component<{}, IListCustomerState> {
         <div className="column is-3">
 
         <div className="is-clearfix">
-          <a className="button is-primary top-margin-20 is-pulled-right">Add customer</a>
+          <a className="button is-primary top-margin-20 is-pulled-right" onClick={() => this.addCustomerHandler()}>Add customer</a>
         </div>
 
           <nav className="panel top-padding-20">
@@ -95,11 +101,12 @@ class ListCustomer extends React.Component<{}, IListCustomerState> {
             </Query>
           </nav>
         </div>
-        <div className="column is-4">
-          <SingleCustomer selectedCustomerId={this.state.selectedCustomerId} />
+        <div className="column is-5">
+        {this.state.selectedCustomerId === 'add' ?
+          <CreateCustomer /> :
+            <SingleCustomer selectedCustomerId={this.state.selectedCustomerId} /> }
         </div>
       </div>
-      <CreateCustomer />
     </div>
     )
   }
