@@ -37,45 +37,68 @@ class ListCustomer extends React.Component<{}, IListCustomerState> {
 
   public render() {
     return (
-    <div>
-      <Query query={getCustomers}>
-        {({ loading, error, data, subscribeToMore }) => {
-          if (loading) {
-            return 'Loading...'
-          }
-  
-          if (error) {
-            return `Error! ${error}`
-          }
+    <div className="is-spaced">
+      <section className="hero is-info">
+        <div className="hero-body">
+          <div className="container">
+            <h1 className="title">
+              Customers
+            </h1>
+            <h2 className="subtitle">
+              The ones who pay the beer
+            </h2>
+          </div>
+        </div>
+      </section>
+      <div className="columns">
+        <div className="column is-3">
 
-          if (!unsubscribe) {
-            unsubscribe = subscribeToMore({
-              document: customersSubscription,
-              updateQuery: (prev, { subscriptionData }) => {
-                if (!subscriptionData) {
-                  return prev
-                }
-                return {
-                  customers: subscriptionData.data.customers
-                }
-              }
-            })
-          }
+        <div className="is-clearfix">
+          <a className="button is-primary top-margin-20 is-pulled-right">Add customer</a>
+        </div>
 
-          return (
-            <div>
-              <ul>
-                {data.customers.map((customer:any) => (
-                  <li key={customer._id} value={customer.name} onClick={() => this.openCustomer(customer._id)}>
-                    {customer.name}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )
-        }}
-      </Query>
-      <SingleCustomer selectedCustomerId={this.state.selectedCustomerId} />
+          <nav className="panel top-padding-20">
+            <Query query={getCustomers}>
+              {({ loading, error, data, subscribeToMore }) => {
+                if (loading) {
+                  return 'Loading...'
+                }
+        
+                if (error) {
+                  return `Error! ${error}`
+                }
+
+                if (!unsubscribe) {
+                  unsubscribe = subscribeToMore({
+                    document: customersSubscription,
+                    updateQuery: (prev, { subscriptionData }) => {
+                      if (!subscriptionData) {
+                        return prev
+                      }
+                      return {
+                        customers: subscriptionData.data.customers
+                      }
+                    }
+                  })
+                }
+
+                return (
+                  <div>
+                    {data.customers.map((customer:any) => (
+                      <a className="panel-block" key={customer._id} onClick={() => this.openCustomer(customer._id)}>
+                        {customer.name}
+                      </a>
+                    ))}
+                  </div>
+                )
+              }}
+            </Query>
+          </nav>
+        </div>
+        <div className="column is-4">
+          <SingleCustomer selectedCustomerId={this.state.selectedCustomerId} />
+        </div>
+      </div>
       <CreateCustomer />
     </div>
     )

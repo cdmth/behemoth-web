@@ -18,7 +18,7 @@ class SingleCustomer extends React.Component<ISingleCustomerProps, ISingleCustom
   
   public render() {
     if (this.props.selectedCustomerId === '') {
-      return 'valitse homo'
+      return ''
     }
 
     return (
@@ -34,8 +34,11 @@ class SingleCustomer extends React.Component<ISingleCustomerProps, ISingleCustom
 
           return (
             <div>
-              <UpdateCustomer selectedCustomerId={this.props.selectedCustomerId} name={data.customer.name}/>
-              <DeleteCustomer selectedCustomerId={this.props.selectedCustomerId} />
+              <div className="box top-margin-20">
+                <p className="title">{data.customer.name}</p>
+                <UpdateCustomer selectedCustomerId={this.props.selectedCustomerId} name={data.customer.name}/>
+                <DeleteCustomer selectedCustomerId={this.props.selectedCustomerId} /> 
+              </div>
             </div>
           )
         }}

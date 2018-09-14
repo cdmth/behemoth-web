@@ -22,7 +22,9 @@ export const DeleteCustomer : React.SFC<IDeleteCustomerProps> = (props) => {
               deleteC({ variables: { _id: props.selectedCustomerId } });
             }}
           >
-            <button type="submit">Delete Customer</button>
+            <div className="field">
+              <button className="button is-danger" type="submit">Delete Customer</button>
+            </div>
           </form>
         </div>
       )}
