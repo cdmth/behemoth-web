@@ -14,7 +14,7 @@ const getCustomer = gql`
   }
 `
 
-class CustomerSingle extends React.Component<ISingleCustomerProps, ISingleCustomerState> {
+class SingleCustomer extends React.Component<ISingleCustomerProps, ISingleCustomerState> {
   
   public render() {
     if (this.props.selectedCustomerId === '') {
@@ -44,4 +44,4 @@ class CustomerSingle extends React.Component<ISingleCustomerProps, ISingleCustom
   }
 }
 
-export default CustomerSingle
+export default SingleCustomer

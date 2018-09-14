@@ -1,8 +1,10 @@
 import * as React from 'react'
 import gql from 'graphql-tag'
 import { Query } from 'react-apollo'
-import CustomerSingle from './SingleCustomer'
+import SingleCustomer from './SingleCustomer'
 import { IListCustomerState } from '../../interfaces'
+
+import CreateCustomer from './CreateCustomer'
 
 const getCustomers = gql`
   {
@@ -24,7 +26,7 @@ const customersSubscription = gql`
 
 let unsubscribe: any = null
 
-class Customer extends React.Component<{}, IListCustomerState> {
+class ListCustomer extends React.Component<{}, IListCustomerState> {
   constructor(props: any) {
     super(props)
 
@@ -73,7 +75,8 @@ class Customer extends React.Component<{}, IListCustomerState> {
           )
         }}
       </Query>
-      <CustomerSingle selectedCustomerId={this.state.selectedCustomerId} />
+      <SingleCustomer selectedCustomerId={this.state.selectedCustomerId} />
+      <CreateCustomer />
     </div>
     )
   }
@@ -86,4 +89,4 @@ class Customer extends React.Component<{}, IListCustomerState> {
 
 }
 
-export default Customer
+export default ListCustomer
