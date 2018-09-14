@@ -15,7 +15,20 @@ const getCustomer = gql`
 `
 
 class SingleCustomer extends React.Component<ISingleCustomerProps, ISingleCustomerState> {
-  
+  constructor(props : any ) {
+    super(props)
+    this.state = {
+      edit: false
+    }
+  }
+
+  public edit = () => {
+    this.setState({
+      edit: !this.state.edit
+    })
+  }
+
+
   public render() {
     if (this.props.selectedCustomerId === '') {
       return ''
@@ -34,9 +47,13 @@ class SingleCustomer extends React.Component<ISingleCustomerProps, ISingleCustom
 
           return (
             <div>
+              <button className={`button ${this.state.edit ? "is-danger" : "is-primary"} is-pulled-right`} onClick={() => this.edit()}>{this.state.edit ? "Cancel" : "Edit"}</button>
               <p className="title">{data.customer.name}</p>
-              <UpdateCustomer selectedCustomerId={this.props.selectedCustomerId} name={data.customer.name}/>
-              <DeleteCustomer selectedCustomerId={this.props.selectedCustomerId} /> 
+                {this.state.edit ? 
+                <div>
+                  <UpdateCustomer selectedCustomerId={this.props.selectedCustomerId} name={data.customer.name}/>
+                  <DeleteCustomer selectedCustomerId={this.props.selectedCustomerId} />
+                </div> : ''}
             </div>
           )
         }}

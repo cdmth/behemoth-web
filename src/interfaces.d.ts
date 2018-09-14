@@ -3,7 +3,7 @@ interface ISingleCustomerProps {
 }
 
 interface ISingleCustomerState {
-  name: string
+  edit: boolean
 }
 
 interface IListCustomerState {

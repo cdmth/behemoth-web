@@ -22,3 +22,25 @@
   min-width: 200px;
   max-width: 250px;
 }
+
+.right-bar {
+  padding-top: 0px;
+  margin-top: 12px;
+}
+
+.left-content-wrapper {
+  padding: 10px;
+}
+
+.title-text {
+  border-bottom: 1px solid #888
+}
+
+.spacer-30 {
+  padding-left: 30px;
+}
+
+.close-tab {
+  left: -12px;
+  top: -12px;
+}

@@ -31,87 +31,77 @@ class ListCustomer extends React.Component<{}, IListCustomerState> {
     super(props)
 
     this.state = {
-      selectedCustomerId: "add"
+      selectedCustomerId: "close"
     }
   }
 
-  public addCustomerHandler = () => {
+  public addCustomerHandler = (state : string) => {
     this.setState({
-      selectedCustomerId: "add"
+      selectedCustomerId: state
     })
   }
 
   public render() {
     return (
-    <div className="is-spaced">
-      <section className="hero is-info">
-        <div className="hero-body">
-          <div className="container">
-            <h1 className="title">
-              Customers
-            </h1>
-            <h2 className="subtitle">
-              The ones who pay the beer
-            </h2>
-          </div>
-        </div>
-      </section>
       <div className="columns">
-        <div className="column customers-panel is-narrow">
+        <div className="column is-6 left-side">
+          <div className="spacer-30">
+            <p className="title title-text">Customers</p>
 
-        <div className="is-clearfix">
-          <a className="button is-primary top-margin-20 is-pulled-right" onClick={() => this.addCustomerHandler()}>Add customer</a>
-        </div>
-
-          <nav className="panel top-padding-20">
-            <Query query={getCustomers}>
-              {({ loading, error, data, subscribeToMore }) => {
-                if (loading) {
-                  return 'Loading...'
-                }
-        
-                if (error) {
-                  return `Error! ${error}`
-                }
-
-                if (!unsubscribe) {
-                  unsubscribe = subscribeToMore({
-                    document: customersSubscription,
-                    updateQuery: (prev, { subscriptionData }) => {
-                      if (!subscriptionData) {
-                        return prev
-                      }
-                      return {
-                        customers: subscriptionData.data.customers
-                      }
-                    }
-                  })
-                }
-
-                return (
-                  <div>
-                    {data.customers.map((customer:any) => (
-                      <a className="panel-block" key={customer._id} onClick={() => this.openCustomer(customer._id)}>
-                        {customer.name}
-                      </a>
-                    ))}
-                  </div>
-                )
-              }}
-            </Query>
-          </nav>
-        </div>
-        <div className="column is-5">
-          <div>
-            <div className="box top-margin-20">
-              {this.state.selectedCustomerId === 'add' ?
-                <CreateCustomer /> :
-                  <SingleCustomer selectedCustomerId={this.state.selectedCustomerId} /> }
+            <div className="buttons">
+              <a className="button is-primary top-margin-20" onClick={() => this.addCustomerHandler('add')}>Add customer</a>
             </div>
+
+            <nav className="panel top-padding-20 column is-10 is-offset-1">
+              <Query query={getCustomers}>
+                {({ loading, error, data, subscribeToMore }) => {
+                  if (loading) {
+                    return 'Loading...'
+                  }
+          
+                  if (error) {
+                    return `Error! ${error}`
+                  }
+
+                  if (!unsubscribe) {
+                    unsubscribe = subscribeToMore({
+                      document: customersSubscription,
+                      updateQuery: (prev, { subscriptionData }) => {
+                        if (!subscriptionData) {
+                          return prev
+                        }
+                        return {
+                          customers: subscriptionData.data.customers
+                        }
+                      }
+                    })
+                  }
+
+                  return (
+                    <div>
+                      {data.customers.map((customer:any) => (
+                        <a className="panel-block" key={customer._id} onClick={() => this.openCustomer(customer._id)}>
+                          {customer.name}
+                        </a>
+                      ))}
+                    </div>
+                  )
+                }}
+              </Query>
+            </nav>
           </div>
         </div>
+
+        {this.state.selectedCustomerId === 'close' ? '' :     
+        <div className="column">
+          <div className="box top-margin-20">
+          <a className="delete close-tab is-medium" onClick={() => this.addCustomerHandler('close')} />
+            {this.state.selectedCustomerId === 'add' ?
+              <CreateCustomer /> :
+              <SingleCustomer selectedCustomerId={this.state.selectedCustomerId} /> }
+          </div>
+        </div> }
       </div>
-    </div>
     )
   }
 
