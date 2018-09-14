@@ -1,6 +1,5 @@
 import * as React from 'react'
 import { Link } from "react-router-dom";
-import logo from '../logo.svg';
 
 const createCustomer = () => {
   return (
@@ -18,7 +17,6 @@ const createCustomer = () => {
           </li>
         </ul>
       </div>
-      <img src={logo} className="App-logo" alt="logo" />
     </header>
   );
 };
