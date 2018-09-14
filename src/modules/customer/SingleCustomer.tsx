@@ -30,34 +30,32 @@ class SingleCustomer extends React.Component<ISingleCustomerProps, ISingleCustom
 
 
   public render() {
-    if (this.props.selectedCustomerId === '') {
-      return ''
-    }
-
     return (
-      <Query query={getCustomer} variables={{_id: this.props.selectedCustomerId}}>
-        {({ loading, error, data}) => {
-          if (loading) {
-            return 'Loading...'
-          }
+      <div>
+        <button className={`button ${this.state.edit ? "is-danger" : "is-primary"} is-pulled-right`} onClick={() => this.edit()}>{this.state.edit ? "Cancel" : "Edit"}</button>
+        <Query query={getCustomer} variables={{_id: this.props.selectedCustomerId}}>
+          {({ loading, error, data}) => {
+            if (loading) {
+              return "&nbsp"
+            }
 
-          if (error) {
-            return `Error! ${error.message}`
-          }
+            if (error) {
+              return `Error! ${error.message}`
+            }
 
-          return (
-            <div>
-              <button className={`button ${this.state.edit ? "is-danger" : "is-primary"} is-pulled-right`} onClick={() => this.edit()}>{this.state.edit ? "Cancel" : "Edit"}</button>
-              <p className="title">{data.customer.name}</p>
+            return (
+              <div>
+                <p className="title">{data.customer.name}</p>
                 {this.state.edit ? 
                 <div>
                   <UpdateCustomer selectedCustomerId={this.props.selectedCustomerId} name={data.customer.name}/>
                   <DeleteCustomer selectedCustomerId={this.props.selectedCustomerId} />
                 </div> : ''}
-            </div>
-          )
-        }}
-      </Query>
+              </div>
+            )
+          }}
+        </Query>
+      </div>
     )
   }
 }

@@ -44,7 +44,7 @@ class ListCustomer extends React.Component<{}, IListCustomerState> {
           <div className="box top-margin-20">
           <a className="delete close-tab is-medium" onClick={() => this.addCustomerHandler('close')} />
             {this.state.selectedCustomerId === 'add' ?
-              <CreateCustomer /> :
+              <CreateCustomer addCustomerHandler={this.addCustomerHandler} /> :
               <SingleCustomer selectedCustomerId={this.state.selectedCustomerId} /> }
           </div>
         </div> }
