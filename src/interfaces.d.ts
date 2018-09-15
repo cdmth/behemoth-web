@@ -1,30 +1,57 @@
-interface ISingleCustomerProps {
+export interface ISingleCustomerProps {
   selectedCustomerId: string
 }
 
-interface ISingleCustomerState {
+export interface ISingleCustomerState {
   edit: boolean
 }
 
-interface IListCustomerState {
+export interface IListCustomerState {
   selectedCustomerId: string
 }
 
-interface IDeleteCustomerProps {
+export interface IDeleteCustomerProps {
   selectedCustomerId: string
 }
 
-interface IGetCustomerProps {
+export interface IGetCustomerProps {
   openCustomer: any
 }
 
-interface ICreateCustomerProps {
+export interface ICreateCustomerProps {
   addCustomerHandler: any
 }
 
-interface IUpdateCustomerProps {
+export interface IUpdateCustomerProps {
   selectedCustomerId: string
   name: string
 }
 
-export { ISingleCustomerProps, ISingleCustomerState, IGetCustomerProps, ICreateCustomerProps, IListCustomerState, IDeleteCustomerProps, IUpdateCustomerProps}
+export interface ISingleProjectProps {
+  selectedProjectId: string
+}
+
+export interface ISingleProjectState {
+  edit: boolean
+}
+
+export interface IListProjectState {
+  selectedProjectId: string
+}
+
+export interface IDeleteProjectProps {
+  selectedProjectId: string
+}
+
+export interface IGetProjectProps {
+  openProject: any
+}
+
+export interface ICreateProjectProps {
+  addProjectHandler: any
+}
+
+export interface IUpdateProjectProps {
+  selectedProjectId: string
+  name: string
+}

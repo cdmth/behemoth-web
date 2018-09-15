@@ -1,22 +1,22 @@
 import * as React from 'react'
 import gql from "graphql-tag";
 import { Mutation } from "react-apollo";
-import { ICreateCustomerProps } from '../../interfaces'
+import { ICreateProjectProps } from '../../interfaces'
 
-const addCustomer = gql`
-  mutation CreateCustomer($name: String) {
-    createCustomer(name: $name) {
+const addProject = gql`
+  mutation CreateProject($name: String) {
+    createProject(name: $name) {
       _id
       name
     }
   }
 `;
 
-const createCustomer : React.SFC<ICreateCustomerProps> = (props) => {
+const createProject : React.SFC<ICreateProjectProps> = (props) => {
   let input: any
 
   return (
-    <Mutation mutation={addCustomer} >
+    <Mutation mutation={addProject} >
       {(create, { loading }) => {
 
         if(loading) {
@@ -25,7 +25,7 @@ const createCustomer : React.SFC<ICreateCustomerProps> = (props) => {
 
         return (
         <div>
-          <p className="title">Create new customer</p>
+          <p className="title">Create new project</p>
           <form
             onSubmit={e => {
               e.preventDefault();
@@ -40,7 +40,7 @@ const createCustomer : React.SFC<ICreateCustomerProps> = (props) => {
                 }}
               />
             </div>
-            <button className="button is-primary" type="submit">Add Customer</button>
+            <button className="button is-primary" type="submit">Add Project</button>
           </form>
         </div>
         )
@@ -49,4 +49,4 @@ const createCustomer : React.SFC<ICreateCustomerProps> = (props) => {
   );
 };
 
-export default createCustomer
+export default createProject
