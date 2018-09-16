@@ -5,7 +5,7 @@ import { IGetProjectProps } from '../../interfaces'
 
 const getProjectsByCustomer = gql`
   {
-    customersWithProjects {
+    customers {
       _id
       name
       projects {
@@ -16,15 +16,11 @@ const getProjectsByCustomer = gql`
   }
 `
 
-const customersSubscription = gql`
+const projectsSubscription = gql`
   subscription {
-    customersWithProjects {
+    projects {
       _id
       name
-      projects {
-        _id
-        name
-      }
     }
   }
 `
@@ -34,7 +30,7 @@ let unsubscribe: any = null
 export const getProject : React.SFC<IGetProjectProps> = (props) => {
   return (
     <Query query={getProjectsByCustomer}>
-    {({ loading, error, data, subscribeToMore }) => {
+    {({ loading, error, data, subscribeToMore, refetch }) => {
       if (loading) {
         return 'Loading...'
       }
@@ -45,21 +41,16 @@ export const getProject : React.SFC<IGetProjectProps> = (props) => {
 
       if (!unsubscribe) {
         unsubscribe = subscribeToMore({
-          document: customersSubscription,
-          updateQuery: (prev, { subscriptionData }) => {
-            if (!subscriptionData) {
-              return prev
-            }
-            return {
-              customersWithProjects: subscriptionData.data.customersWithProjects
-            }
+          document: projectsSubscription,
+          updateQuery: () => {
+            refetch().then(data => data)
           }
         })
       }
 
       return (
         <div>
-          {data.customersWithProjects.map((customer:any) => (
+          {data.customers.map((customer:any) => (
             <div key={customer._id} className="company-project">
               <p className="title is-size-5">
                 {customer.name}
