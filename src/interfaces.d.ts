@@ -55,3 +55,10 @@ export interface IUpdateProjectProps {
   selectedProjectId: string
   name: string
 }
+
+export interface ICreateEntryState {
+  projectId: string,
+  start: number,
+  end: number, 
+  description: string
+}

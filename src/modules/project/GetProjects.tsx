@@ -1,6 +1,6 @@
 import * as React from 'react'
-import gql from "graphql-tag";
-import { Query } from "react-apollo";
+import gql from "graphql-tag"
+import { Query } from "react-apollo"
 import { IGetProjectProps } from '../../interfaces'
 
 const getProjectsByCustomer = gql`
