@@ -3,20 +3,28 @@ import gql from "graphql-tag";
 import { Query } from "react-apollo";
 import { IGetProjectProps } from '../../interfaces'
 
-const getProjects = gql`
+const getProjectsByCustomer = gql`
   {
-    projects {
+    customersWithProjects {
       _id
       name
+      projects {
+        _id
+        name
+      }
     }
   }
 `
 
-const ProjectsSubscription = gql`
+const customersSubscription = gql`
   subscription {
-    projects {
+    customersWithProjects {
       _id
       name
+      projects {
+        _id
+        name
+      }
     }
   }
 `
@@ -25,7 +33,7 @@ let unsubscribe: any = null
 
 export const getProject : React.SFC<IGetProjectProps> = (props) => {
   return (
-    <Query query={getProjects}>
+    <Query query={getProjectsByCustomer}>
     {({ loading, error, data, subscribeToMore }) => {
       if (loading) {
         return 'Loading...'
@@ -37,13 +45,13 @@ export const getProject : React.SFC<IGetProjectProps> = (props) => {
 
       if (!unsubscribe) {
         unsubscribe = subscribeToMore({
-          document: ProjectsSubscription,
+          document: customersSubscription,
           updateQuery: (prev, { subscriptionData }) => {
             if (!subscriptionData) {
               return prev
             }
             return {
-              projects: subscriptionData.data.projects
+              customersWithProjects: subscriptionData.data.customersWithProjects
             }
           }
         })
@@ -51,10 +59,22 @@ export const getProject : React.SFC<IGetProjectProps> = (props) => {
 
       return (
         <div>
-          {data.projects.map((project:any) => (
-            <a className="panel-block" key={project._id} onClick={() => props.openProject(project._id)}>
-              {project.name}
-            </a>
+          {data.customersWithProjects.map((customer:any) => (
+            <div key={customer._id} className="company-project">
+              <p className="title is-size-5">
+                {customer.name}
+              </p>
+              <p className="subtitle is-size-6">
+                {customer._id}
+              </p>
+              <nav className="panel top-padding-20 column is-10 is-offset-1">
+                {customer.projects.map((project: any) => (
+                  <a className="panel-block" key={project._id} onClick={() => props.openProject(project._id)}>
+                    {project.name}
+                  </a>
+                ))}
+              </nav>
+            </div>
           ))}
         </div>
       )

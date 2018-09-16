@@ -32,9 +32,7 @@ class ListProject extends React.Component<{}, IListProjectState> {
               <a className="button is-primary top-margin-20" onClick={() => this.addProjectHandler('add')}>Add Project</a>
             </div>
 
-            <nav className="panel top-padding-20 column is-10 is-offset-1">
-              <GetProjects openProject={this.openProject}/>
-            </nav>
+            <GetProjects openProject={this.openProject}/>
           </div>
         </div>
 
