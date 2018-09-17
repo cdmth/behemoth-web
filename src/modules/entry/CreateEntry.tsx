@@ -12,10 +12,23 @@ const getProjects = gql`
   }
 `
 
+const getProjectWorkers = gql`
+  query getWorkersByProjectId($projectId: String!) {
+    getWorkersByProjectId(projectId: $projectId) {
+      workers {
+      workerId
+      name
+      }
+    }
+  }
+`
+
 const createEntry = gql`
-  mutation CreateEntry($projectId: String!, $start: Int, $end: Int, $description: String) {
-    createEntry(projectId: $projectId, start: $start, end: $end, description: $description) {
+  mutation CreateEntry($projectId: String!, $workerId: String!, $start: Int, $end: Int, $description: String) {
+    createEntry(projectId: $projectId, workerId: $workerId, start: $start, end: $end, description: $description) {
       projectId
+      workerId
+      projectWorkerId
       start
       end
       description
@@ -50,6 +63,13 @@ export default class CreateEntry extends React.Component<{}, ICreateEntryState> 
     })
   }
 
+  public setDefault(val:any) {
+    console.log(val)
+    this.setState({
+      projectId: val.projects[0]._id
+    })
+  } 
+
   public render() {
     return (
       <Mutation mutation={createEntry}>
@@ -66,7 +86,7 @@ export default class CreateEntry extends React.Component<{}, ICreateEntryState> 
                 create({ variables: this.state })
               }}
             >
-              <Query query={getProjects}>
+              <Query query={getProjects} onCompleted={(val) => this.setDefault(val)}>
               {({ loading, error, data }) => {
                 if (loading) {
                   return 'Loading...'
@@ -90,7 +110,30 @@ export default class CreateEntry extends React.Component<{}, ICreateEntryState> 
                   )
                 }}
               </Query>
+              
+              <Query query={getProjectWorkers} variables={{projectId: this.state.projectId}}>
+              {({ loading, error, data}) => {
+                if (loading) {
+                  return "Loading"
+                }
 
+                if (error) {
+                  return `Error! ${error.message}`
+                }
+
+                console.log(data)
+                return (
+                  <div className="select">
+                    <select>
+                    )
+                    {data.getWorkersByProjectId.workers.map((worker: any) => 
+                      <option key={worker.workerId} value={worker.workerId}>{worker.name}</option>
+                    )}
+                    </select>
+                  </div>
+                  )
+                }}
+              </Query>
               <label className="label">Description</label>
               <input className="input" name="description" value={this.state.description} onChange={e => this.onChange(e)}/> 
 

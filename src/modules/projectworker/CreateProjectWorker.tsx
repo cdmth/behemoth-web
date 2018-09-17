@@ -39,12 +39,14 @@ class CreateProjectWorker extends React.Component<ICreateProjectWorkerProps, ICr
   }
 
   public completed = (val : any) => {
-    const { name, _id } = val.workers[1]
+    if (val.workers.length > 0) {
+      const { name, _id } = val.workers[0]
 
-    this.setState({
-      workerName: name,
-      workerId: _id
-    })
+      this.setState({
+        workerName: name,
+        workerId: _id
+      })
+    }
   }
 
   public render() {

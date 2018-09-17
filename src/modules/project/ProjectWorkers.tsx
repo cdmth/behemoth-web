@@ -22,17 +22,36 @@ const deleteWorker = gql`
   }
 `
 
+const projectWorkersSubscription = gql`
+  subscription {
+    projectWorkers {
+      projectId
+    }
+  }
+`
+
+let unsubscribe: any = null
+
 const ProjectWorkers : React.SFC<IProjectWorkersProps> = (props) => {
   return (
     <div>
       <Query query={getProjectWorkers} variables={{projectId: props.selectedProjectId}}>
-        {({ loading, error, data}) => {
+        {({ loading, error, data, subscribeToMore, refetch}) => {
           if (loading) {
             return "Loading"
           }
 
           if (error) {
             return `Error! ${error.message}`
+          }
+          
+          if (!unsubscribe) {
+            unsubscribe = subscribeToMore({
+              document: projectWorkersSubscription,
+              updateQuery: () => {
+                refetch().then(data => data)
+              }
+            })
           }
 
           return (
