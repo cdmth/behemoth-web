@@ -87,6 +87,7 @@ export interface IUpdateProjectProps {
 
 export interface ICreateEntryState {
   projectId: string,
+  workerId: string,
   start: number,
   end: number, 
   description: string

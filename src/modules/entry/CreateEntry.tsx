@@ -16,8 +16,8 @@ const getProjectWorkers = gql`
   query getWorkersByProjectId($projectId: String!) {
     getWorkersByProjectId(projectId: $projectId) {
       workers {
-      workerId
-      name
+        workerId
+        name
       }
     }
   }
@@ -28,7 +28,6 @@ const createEntry = gql`
     createEntry(projectId: $projectId, workerId: $workerId, start: $start, end: $end, description: $description) {
       projectId
       workerId
-      projectWorkerId
       start
       end
       description
@@ -42,6 +41,7 @@ export default class CreateEntry extends React.Component<{}, ICreateEntryState> 
 
     this.state = {
       projectId: '',
+      workerId: '',
       start: 0, 
       end: 0,
       description: ''
@@ -63,12 +63,19 @@ export default class CreateEntry extends React.Component<{}, ICreateEntryState> 
     })
   }
 
-  public setDefault(val:any) {
-    console.log(val)
+  public setDefaultProject(val:any) {
     this.setState({
       projectId: val.projects[0]._id
     })
   } 
+
+  public setDefaultProjectWorker(val:any) {
+    if (val.getWorkersByProjectId.workers.length) {
+      this.setState({
+        workerId: val.getWorkersByProjectId.workers[0].workerId
+      })
+    }
+  }
 
   public render() {
     return (
@@ -86,12 +93,12 @@ export default class CreateEntry extends React.Component<{}, ICreateEntryState> 
                 create({ variables: this.state })
               }}
             >
-              <Query query={getProjects} onCompleted={(val) => this.setDefault(val)}>
+              <Query query={getProjects} onCompleted={(val) => this.setDefaultProject(val)}>
               {({ loading, error, data }) => {
                 if (loading) {
                   return 'Loading...'
                 }
-
+                console.log(data)
                 if (error) {
                   return `Error! ${error}`
                 }
@@ -111,7 +118,9 @@ export default class CreateEntry extends React.Component<{}, ICreateEntryState> 
                 }}
               </Query>
               
-              <Query query={getProjectWorkers} variables={{projectId: this.state.projectId}}>
+              <Query query={getProjectWorkers} 
+                variables={{projectId: this.state.projectId}}
+                onCompleted={(val) => this.setDefaultProjectWorker(val)}>
               {({ loading, error, data}) => {
                 if (loading) {
                   return "Loading"
@@ -122,10 +131,10 @@ export default class CreateEntry extends React.Component<{}, ICreateEntryState> 
                 }
 
                 console.log(data)
+                
                 return (
                   <div className="select">
-                    <select>
-                    )
+                    <select name="workerId" onChange={e => this.onChange(e)}>
                     {data.getWorkersByProjectId.workers.map((worker: any) => 
                       <option key={worker.workerId} value={worker.workerId}>{worker.name}</option>
                     )}
