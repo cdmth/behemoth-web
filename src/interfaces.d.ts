@@ -6,6 +6,22 @@ export interface ISingleCustomerState {
   edit: boolean
 }
 
+export interface ISingleWorkerProps {
+  selectedWorkerId: string
+}
+
+export interface ISingleWorkerState {
+  edit: boolean
+}
+
+export interface IListWorkerState {
+  selectedWorkerId: string
+}
+
+export interface IListWorkerState {
+  selectedWorkerId: string
+}
+
 export interface IListCustomerState {
   selectedCustomerId: string
 }
@@ -14,8 +30,16 @@ export interface IDeleteCustomerProps {
   selectedCustomerId: string
 }
 
+export interface IDeleteWorkerProps {
+  selectedWorkerId: string
+}
+
 export interface IGetCustomerProps {
   openCustomer: any
+}
+
+export interface IGetWorkersProps {
+  openWorker: any
 }
 
 export interface ICreateCustomerProps {
@@ -24,6 +48,11 @@ export interface ICreateCustomerProps {
 
 export interface IUpdateCustomerProps {
   selectedCustomerId: string
+  name: string
+}
+
+export interface IUpdateWorkerProps {
+  selectedWorkerId: string,
   name: string
 }
 
@@ -61,4 +90,21 @@ export interface ICreateEntryState {
   start: number,
   end: number, 
   description: string
+}
+
+export interface IProjectWorkersProps {
+  selectedProjectId: string
+}
+
+export interface ICreateProjectWorkerProps {
+  selectedProjectId: string
+}
+
+export interface ICreateProjectWorkerState {
+  workerName: string,
+  workerId: string
+}
+
+export interface ICreateWorkerProps {
+  addWorkerHandler: any
 }

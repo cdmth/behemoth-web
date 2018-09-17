@@ -7,6 +7,7 @@ import Header from './components/Header'
 import ListCustomers from './modules/customer/ListCustomers'
 import ListProjects from './modules/project/ListProjects'
 import CreateEntry from './modules/entry/CreateEntry'
+import ListWorkers from './modules/worker/ListWorkers'
 import LeftBar from './components/LeftBar'
 
 class App extends React.Component {
@@ -24,7 +25,7 @@ class App extends React.Component {
               <Route exact={true} path="/" component={ListCustomers} />
               <Route path="/projects" component={ListProjects} />
               <Route path="/entries" component={CreateEntry} />
-              <Route path="/workers" component={ListCustomers} />
+              <Route path="/workers" component={ListWorkers} />
             </div>
           </div>
         </div>
