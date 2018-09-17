@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Query } from "react-apollo";
-import { ICustomerSelectComponent } from './control-interfaces'
+import { ICustomerSelectComponent } from '../control-interfaces'
 import { queryAllCustomers } from '../../graphql/queries/queries'
 import Loading from '../Loading'
 

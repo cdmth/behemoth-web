@@ -1,4 +1,4 @@
-import { IDeleteComponent } from './control-interfaces'
+import { IDeleteComponent } from '../control-interfaces'
 import * as React from 'react'
 import { Mutation } from 'react-apollo'
 

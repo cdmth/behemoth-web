@@ -1,4 +1,4 @@
-import { IControlsProps } from './control-interfaces'
+import { IControlsProps } from '../control-interfaces'
 import * as React from 'react'
 
 export const ControlsComponent : React.SFC<IControlsProps> = (props) => (

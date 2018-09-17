@@ -1,9 +1,9 @@
-import { IRightContainerProps } from './control-interfaces'
+import { IRightContainerProps } from '../control-interfaces'
 import * as React from 'react'
 
-import ClosePanel from './ClosePanel'
-import CreateComponent from './CreateComponent'
-import OpenSingleComponent from './OpenSingleComponent'
+import ClosePanel from '../actionbuttons/ClosePanel'
+import CreateComponent from '../module/CreateComponent'
+import OpenSingleComponent from '../module/OpenSingleComponent'
 
 export const RightContainer : React.SFC<IRightContainerProps> = (props) => (
   <div className="column">

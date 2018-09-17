@@ -1,9 +1,9 @@
-import { ILeftContainerProps } from './control-interfaces'
+import { ILeftContainerProps } from '../control-interfaces'
 import * as React from 'react'
 
-import ControlsComponent from './ControlsComponent'
+import ControlsComponent from '../actionbuttons/ControlsComponent'
 import NavContainer from './NavContainer'
-import TitleComponent from './TitleComponent';
+import TitleComponent from '../module/TitleComponent';
 
 export const LeftContainer : React.SFC<ILeftContainerProps> = (props) => (
   <div className="column is-6 left-side">

@@ -1,4 +1,4 @@
-import { ISelectedItemHandler } from './control-interfaces'
+import { ISelectedItemHandler } from '../control-interfaces'
 import * as React from 'react'
 
 export const LeftContainer : React.SFC<ISelectedItemHandler> = (props) => (

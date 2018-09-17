@@ -1,8 +1,8 @@
-import { IOpenSingleComponentProps, IEditItem } from './control-interfaces'
+import { IOpenSingleComponentProps, IEditItem } from '../control-interfaces'
 import * as React from 'react'
 import { Query } from 'react-apollo'
 
-import ToggleEdit from './ToggleEdit'
+import ToggleEdit from '../actionbuttons/ToggleEdit'
 import UpdateComponent from './UpdateComponent'
 import DeleteComponent from './DeleteComponent'
 import ProjectWorkers from '../../modules/project/ProjectWorkers'

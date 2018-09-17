@@ -1,4 +1,4 @@
-import { IToggleEdit } from './control-interfaces'
+import { IToggleEdit } from '../control-interfaces'
 import * as React from 'react'
 
 export const LeftContainer : React.SFC<IToggleEdit> = (props) => (

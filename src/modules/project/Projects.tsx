@@ -1,5 +1,5 @@
 import * as React from 'react'
-import WrapComponent from '../../components/module/WrapComponent'
+import WrapComponent from '../../components/containers/WrapComponent'
 import { 
   queryAllProjects,
   projectsSubscription ,

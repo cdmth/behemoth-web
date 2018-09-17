@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Mutation } from "react-apollo";
-import { ICreateComponent, ICreateComponentState } from './control-interfaces'
+import { ICreateComponent, ICreateComponentState } from '../control-interfaces'
 import Loading from '../Loading'
 import CustomersSelectComponent from './CustomersSelectComponent';
 

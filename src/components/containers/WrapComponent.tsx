@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { IWrapComponentProps, IWrapComponentState } from './control-interfaces'
+import { IWrapComponentProps, IWrapComponentState } from '../control-interfaces'
 
 import LeftContainer from './LeftContainer'
 import RightContainer from './RightContainer'

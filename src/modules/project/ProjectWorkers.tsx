@@ -1,4 +1,4 @@
-import { IProjectWorkersProps } from '../../components/module/control-interfaces'
+import { IProjectWorkersProps } from '../../components/control-interfaces'
 import * as React from 'react'
 import { Query, Mutation } from 'react-apollo'
 import gql from 'graphql-tag'

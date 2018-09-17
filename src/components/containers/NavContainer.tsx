@@ -1,7 +1,7 @@
 import * as React from 'react'
-import { INavContainerProps } from './control-interfaces'
+import { INavContainerProps } from '../control-interfaces'
 
-import QueryComponent from './QueryComponent'
+import QueryComponent from '../module/QueryComponent'
 
 export const NavContainer : React.SFC<INavContainerProps>  = (props) => (
     <QueryComponent 

@@ -9,7 +9,7 @@ import Projects from './modules/project/Projects'
 import CreateEntry from './modules/entry/CreateEntry'
 import Workers from './modules/worker/Workers'
 import LeftBar from './components/LeftBar'
-import WrapComponent from './components/module/WrapComponent';
+import WrapComponent from './components/containers/WrapComponent';
 
 class App extends React.Component {
 

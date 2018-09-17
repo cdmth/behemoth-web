@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Query } from 'react-apollo';
-import { INavContainerProps } from './control-interfaces'
+import { INavContainerProps } from '../control-interfaces'
 
 import Loading from '../Loading'
 
