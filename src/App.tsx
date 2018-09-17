@@ -4,11 +4,12 @@ import { BrowserRouter as Router, Route } from "react-router-dom"
 import 'bulma/css/bulma.css'
 
 import Header from './components/Header'
-import ListCustomers from './modules/customer/ListCustomers'
-import ListProjects from './modules/project/ListProjects'
+import Customers from './modules/customer/Customers'
+import Projects from './modules/project/Projects'
 import CreateEntry from './modules/entry/CreateEntry'
-import ListWorkers from './modules/worker/ListWorkers'
+import Workers from './modules/worker/Workers'
 import LeftBar from './components/LeftBar'
+import WrapComponent from './components/module/WrapComponent';
 
 class App extends React.Component {
 
@@ -22,10 +23,11 @@ class App extends React.Component {
               <LeftBar />
             </div>
             <div className="column container-fluid">
-              <Route exact={true} path="/" component={ListCustomers} />
-              <Route path="/projects" component={ListProjects} />
+              <Route exact={true} path="/" component={Customers} />
+              <Route path="/projects" component={Projects} />
               <Route path="/entries" component={CreateEntry} />
-              <Route path="/workers" component={ListWorkers} />
+              <Route path="/workers" component={Workers} />
+              <Route path="/new" component={WrapComponent} />
             </div>
           </div>
         </div>

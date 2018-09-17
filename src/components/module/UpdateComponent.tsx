@@ -1,21 +1,12 @@
-import { IUpdateCustomerProps } from '../../interfaces'
+import { IUpdateComponent } from './control-interfaces'
 import * as React from 'react'
 import { Mutation } from 'react-apollo'
-import gql from 'graphql-tag'
 
-const updateCustomer = gql`
-  mutation updateCustomer($_id: String!, $name: String!) {
-    updateCustomer(_id: $_id, name: $name) {
-      name
-    }
-  }
-`
-
-export const UpdateCustomer : React.SFC<IUpdateCustomerProps> = (props) => {
+export const UpdateCustomer : React.SFC<IUpdateComponent> = (props) => {
   let nameInput : any
 
   return (
-    <Mutation mutation={updateCustomer}>
+    <Mutation mutation={props.updateMutation}>
       {update => (
         <div>
           <form
@@ -23,7 +14,7 @@ export const UpdateCustomer : React.SFC<IUpdateCustomerProps> = (props) => {
               event.preventDefault()
               try {
                 update({ 
-                  variables: {_id: props.selectedCustomerId, name: nameInput.value}})
+                  variables: {_id: props.selectedItemId, name: nameInput.value}})
               } catch (error) {
                 console.log(error)
               }
@@ -33,7 +24,7 @@ export const UpdateCustomer : React.SFC<IUpdateCustomerProps> = (props) => {
               <input className="input" ref={node => {nameInput=node}}/>
             </div>
             <div className="field">
-              <button className="button is-primary" type="submit">Update customer</button>
+              <button className="button is-primary" type="submit">Update</button>
             </div>
           </form>
         </div>

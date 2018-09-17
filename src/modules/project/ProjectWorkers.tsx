@@ -1,4 +1,4 @@
-import { IProjectWorkersProps } from '../../interfaces'
+import { IProjectWorkersProps } from '../../components/module/control-interfaces'
 import * as React from 'react'
 import { Query, Mutation } from 'react-apollo'
 import gql from 'graphql-tag'
@@ -35,7 +35,7 @@ let unsubscribe: any = null
 const ProjectWorkers : React.SFC<IProjectWorkersProps> = (props) => {
   return (
     <div>
-      <Query query={getProjectWorkers} variables={{projectId: props.selectedProjectId}}>
+      <Query query={getProjectWorkers} variables={{projectId: props.selectedItemId}}>
         {({ loading, error, data, subscribeToMore, refetch}) => {
           if (loading) {
             return "Loading"
@@ -69,11 +69,11 @@ const ProjectWorkers : React.SFC<IProjectWorkersProps> = (props) => {
                         <form
                           onSubmit={e => {
                             e.preventDefault();
-                            deleteWrkr({ variables: { workerId: worker.workerId, projectId: props.selectedProjectId}});
+                            deleteWrkr({ variables: { workerId: worker.workerId, projectId: props.selectedItemId}});
                           }}
                         >
                           <div className="field">
-                            <button className="button is-danger top-margin-10" type="submit">Delete Customer</button>
+                            <button className="button is-danger top-margin-10" type="submit">Delete worker</button>
                           </div>
                         </form>
                       </div>

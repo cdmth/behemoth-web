@@ -1,5 +1,6 @@
 export interface ISingleCustomerProps {
-  selectedCustomerId: string
+  selectedCustomerId: string,
+  addCustomerHandler: any
 }
 
 export interface ISingleCustomerState {
@@ -27,7 +28,8 @@ export interface IListCustomerState {
 }
 
 export interface IDeleteCustomerProps {
-  selectedCustomerId: string
+  selectedCustomerId: string,
+  addCustomerHandler: any
 }
 
 export interface IDeleteWorkerProps {

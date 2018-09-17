@@ -1,25 +1,16 @@
-import { IDeleteCustomerProps } from '../../interfaces'
+import { IDeleteComponent } from './control-interfaces'
 import * as React from 'react'
 import { Mutation } from 'react-apollo'
-import gql from 'graphql-tag'
 
-const deleteCustomer = gql`
-mutation deleteCustomer($_id: String!) {
-  deleteCustomer(_id: $_id) {
-    message
-  }
-}
-`
-
-export const DeleteCustomer : React.SFC<IDeleteCustomerProps> = (props) => {
+export const DeleteComponent : React.SFC<IDeleteComponent> = (props) => {
   return (
-    <Mutation mutation={deleteCustomer}>
+    <Mutation mutation={props.deleteMutation} onCompleted={() => props.selectedItemHandler('close')}>
       {(deleteC) => (
         <div>
           <form
             onSubmit={e => {
               e.preventDefault();
-              deleteC({ variables: { _id: props.selectedCustomerId } });
+              deleteC({ variables: { _id: props.selectedItemId } });
             }}
           >
             <div className="field">
@@ -32,4 +23,4 @@ export const DeleteCustomer : React.SFC<IDeleteCustomerProps> = (props) => {
   )
 }
 
-export default DeleteCustomer
+export default DeleteComponent
