@@ -52,7 +52,10 @@ class SingleCustomer extends React.Component<any, any> {
                     selectedItemId={this.props.selectedItemId} 
                   />
                 </div> : ''}
-                <ProjectWorkers selectedItemId={this.props.selectedItemId}/>
+                <ProjectWorkers 
+                  selectedItemId={this.props.selectedItemId}
+                  edit={this.state.edit}
+                />
               </div>
             )
           }}

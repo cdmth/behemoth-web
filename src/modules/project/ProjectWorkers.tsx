@@ -1,4 +1,3 @@
-import { IProjectWorkersProps } from '../../components/control-interfaces'
 import * as React from 'react'
 import { Query, Mutation } from 'react-apollo'
 import gql from 'graphql-tag'
@@ -32,7 +31,7 @@ const projectWorkersSubscription = gql`
 
 let unsubscribe: any = null
 
-const ProjectWorkers : React.SFC<IProjectWorkersProps> = (props) => {
+const ProjectWorkers : React.SFC<any> = (props) => {
   return (
     <div>
       <Query query={getProjectWorkers} variables={{projectId: props.selectedItemId}}>
@@ -62,7 +61,8 @@ const ProjectWorkers : React.SFC<IProjectWorkersProps> = (props) => {
                   <figure className="image is-64x64">
                     <img className="is-rounded" src="https://bulma.io/images/placeholders/128x128.png" />
                   </figure>
-                  {worker.name} {" "}
+                  {worker.name}
+                  {props.edit ?
                   <Mutation mutation={deleteWorker}>
                     {(deleteWrkr) => (
                       <div>
@@ -79,6 +79,7 @@ const ProjectWorkers : React.SFC<IProjectWorkersProps> = (props) => {
                       </div>
                     )}
                   </Mutation>
+                  : '' }
                 </li>
               ))}
               </ul>
