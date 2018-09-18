@@ -91,3 +91,67 @@
   padding: 4px;
   display: inline-block;
 }
+
+.select select, .input, .textarea {
+  background-color: #073642;
+  color: #FFF;
+  border: 1px solid #7bff00;
+}
+
+.select select::-moz-placeholder {
+  color: #bfbfbf;
+  opacity: 1;
+}
+.select select:-ms-input-placeholder {
+  color: #bfbfbf;
+}
+.select select::-webkit-input-placeholder {
+  color: #bfbfbf;
+}
+
+.textarea::-moz-placeholder {
+  color: #bfbfbf;
+  opacity: 1;
+}
+.textarea:-ms-input-placeholder {
+  color: #bfbfbf;
+}
+.textarea::-webkit-input-placeholder {
+  color: #bfbfbf;
+}
+
+.input::-moz-placeholder {
+  color: #bfbfbf;
+  opacity: 1;
+}
+.input:-ms-input-placeholder {
+  color: #bfbfbf;
+}
+.input::-webkit-input-placeholder {
+  color: #bfbfbf;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #073642; 
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #7bff00; 
+  border-radius: 4px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #073642; 
+}
+
+.add-bar {
+  max-width: 960px;
+}

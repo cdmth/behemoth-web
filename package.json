@@ -3,10 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@types/antd": "^1.0.0",
     "@types/moment": "^2.13.0",
     "@types/react-big-calendar": "^0.18.4",
     "@types/react-router-dom": "^4.3.1",
     "@types/ws": "^6.0.1",
+    "antd": "^3.9.2",
     "apollo-boost": "^0.1.16",
     "apollo-cache-inmemory": "^1.2.10",
     "apollo-client": "^2.4.2",

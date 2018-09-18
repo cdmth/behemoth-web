@@ -72,7 +72,7 @@ button.rbc-input::-moz-focus-inner {
   text-align: center;
   vertical-align: middle;
   font-weight: bold;
-  font-size: 90%;
+  font-size: 70%;
   min-height: 0;
   border-bottom: 1px solid #002b36;
 }
@@ -108,7 +108,7 @@ button.rbc-input::-moz-focus-inner {
       -ms-flex-align: center;
           align-items: center;
   margin-bottom: 10px;
-  font-size: 16px;
+  font-size: 10px;
 }
 .rbc-toolbar .rbc-toolbar-label {
   -webkit-flex-grow: 1;
@@ -508,6 +508,7 @@ button.rbc-input::-moz-focus-inner {
   border-top: 1px solid #002b36;
 }
 .rbc-time-slot {
+  font-size: 70%;
   -webkit-flex: 1 0 0;
       -ms-flex: 1 0 0px;
           flex: 1 0 0;

@@ -1,6 +1,10 @@
 import * as React from 'react'
 import gql from "graphql-tag"
 import { Query, Mutation } from 'react-apollo'
+import CalendarWrapper from '../worker/CalendarWrapper'
+import { TimePicker } from 'antd'
+import * as moment from 'moment'
+import './timepicker.css'
 
 const getProjects = gql`
   {
@@ -44,8 +48,21 @@ export default class CreateEntry extends React.Component<{}, any> {
       workerId: '',
       start: 0, 
       end: 0,
-      description: ''
+      description: '',
+      pickerOpen: false
     }
+  }
+
+  public handleStartChange(start: any) {
+    this.setState({
+      start
+    })
+  }
+
+  public handleEndChange(end: any) {
+    this.setState({
+      end
+    })
   }
 
   public onChange(e:any) {
@@ -90,13 +107,21 @@ export default class CreateEntry extends React.Component<{}, any> {
     }
   }
 
+  public togglePicker(x) {
+    this.setState({
+      pickerOpen: x
+    })
+  }
+
   public render() {
     return (
+      <div>
       <Mutation mutation={createEntry}>
         {(create, { loading }) => {
 
           if(loading) {
             return "Loading"
+            console.log(moment())
           }
 
           return (
@@ -106,6 +131,11 @@ export default class CreateEntry extends React.Component<{}, any> {
                 create({ variables: this.state })
               }}
             >
+            <div className="field is-horizontal add-bar">
+              <div className="field-label is-normal">
+                <label className="label">From</label>
+              </div>
+              <div className="field-body">
               <Query query={getProjects} onCompleted={(val) => this.setDefaultProject(val)}>
               {({ loading, error, data }) => {
                 if (loading) {
@@ -117,20 +147,19 @@ export default class CreateEntry extends React.Component<{}, any> {
                 }
 
                 return (
-                  <div>
-                    <label className="label">Select project</label>
+                  <div className="field">
                     <div className="select">
-                      <select className="input" name="projectId" onChange={(e) => this.onChange(e)}>
+                      <select className="input is-small" name="projectId" onChange={(e) => this.onChange(e)}>
                         {data.projects.map((project:any) => (
                           <option key={project._id} value={project._id}>{project.name}</option>
                         ))}
                       </select>
-                    </div>  
+                    </div>
                   </div>
                   )
                 }}
               </Query>
-              
+
               <Query query={getProjectWorkers} 
                 variables={{projectId: this.state.projectId}}>
               {({ loading, error, data}) => {
@@ -145,30 +174,59 @@ export default class CreateEntry extends React.Component<{}, any> {
                 console.log(this.state)
                 
                 return (
-                  <div className="select">
-                    <select name="workerId" onChange={(e:any) => this.onChangeSelect(e, data.getWorkersByProjectId.workers)}>
-                    {data.getWorkersByProjectId.workers.map((worker: any) => 
-                      <option key={worker.workerId} value={worker.workerId}>{worker.name}</option>
-                    )}
-                    </select>
+                  <div className="field">
+                    <div className="select">
+                      <select className="input is-small" name="workerId" onChange={(e:any) => this.onChangeSelect(e, data.getWorkersByProjectId.workers)}>
+                      {data.getWorkersByProjectId.workers.map((worker: any) => 
+                        <option key={worker.workerId} value={worker.workerId}>{worker.name}</option>
+                      )}
+                      </select>
+                    </div>
                   </div>
                   )
                 }}
               </Query>
-              <label className="label">Description</label>
-              <input className="input" name="description" value={this.state.description} onChange={e => this.onChange(e)}/> 
-
-              <label className="label">Start at</label>
-              <input className="input" type="number" name="start" value={this.state.start} onChange={e => this.onChangeNumber(e)}/>
-              
-              <label className="label">End at</label>
-              <input className="input" type="number" name="end" value={this.state.end} onChange={e => this.onChangeNumber(e)}/>
-              
-              <button className="button is-primary is-small" type="submit">Save</button>
+              <div className="field">
+                <input 
+                  className="input is-small" 
+                  name="description" 
+                  placeholder="Add description"
+                  value={this.state.description} 
+                  onChange={e => this.onChange(e)}/>
+              </div>
+              <div className="field">
+                <TimePicker  
+                  format={'HH:mm'}
+                  onChange={(start: any) => this.handleStartChange(start)}
+                  onOpenChange={(x: boolean) => this.togglePicker(x)}
+                  value={this.state.start}
+                  />
+              </div>
+              <div className="field">
+                <TimePicker 
+                  format={'HH:mm'} 
+                  onChange={(end: any) => this.handleStartChange(end)}
+                  onOpenChange={(x: boolean) => this.togglePicker(x)}
+                  value={this.state.end}
+                  />
+              </div>
+              <div className="field">
+                <button 
+                  className="button is-primary is-small" 
+                  type="submit">Save</button>
+              </div>
+              </div>
+              </div>
             </form>
             )
           }}
-      </Mutation>
+        </Mutation>
+        <CalendarWrapper 
+          handleStartChange={(start:any)  => this.handleStartChange(start)} 
+          handleEndChange={(end:any)  => this.handleEndChange(end)} 
+          selectable={!this.state.pickerOpen}
+          />
+      </div>
     )
   }
 }
