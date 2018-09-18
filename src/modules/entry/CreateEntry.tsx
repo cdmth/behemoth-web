@@ -205,7 +205,7 @@ export default class CreateEntry extends React.Component<{}, any> {
               <div className="field">
                 <TimePicker 
                   format={'HH:mm'} 
-                  onChange={(end: any) => this.handleStartChange(end)}
+                  onChange={(end: any) => this.handleEndChange(end)}
                   onOpenChange={(x: boolean) => this.togglePicker(x)}
                   value={this.state.end}
                   />
