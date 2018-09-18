@@ -24,7 +24,7 @@ export const UpdateCustomer : React.SFC<IUpdateComponent> = (props) => {
               <input className="input" ref={node => {nameInput=node}}/>
             </div>
             <div className="field">
-              <button className="button is-primary" type="submit">Update</button>
+              <button className="button is-primary is-small" type="submit">Update</button>
             </div>
           </form>
         </div>

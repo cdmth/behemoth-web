@@ -94,7 +94,7 @@ class CreateProjectWorker extends React.Component<ICreateProjectWorkerProps, ICr
                   )
                 }}
                 </Query>
-                <button className="button is-primary" type="submit">Add worker to project</button>
+                <button className="button is-primary is-small" type="submit">Add worker to project</button>
               </form>
           </div>
         )}}

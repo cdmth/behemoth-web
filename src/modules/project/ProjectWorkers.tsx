@@ -73,7 +73,7 @@ const ProjectWorkers : React.SFC<IProjectWorkersProps> = (props) => {
                           }}
                         >
                           <div className="field">
-                            <button className="button is-danger top-margin-10" type="submit">Delete worker</button>
+                            <button className="button is-danger top-margin-10 is-small" type="submit">Delete worker</button>
                           </div>
                         </form>
                       </div>

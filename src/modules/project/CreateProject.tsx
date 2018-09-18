@@ -35,7 +35,7 @@ class CreateComponent extends React.Component<any, any> {
               <div className="field">
                 <input className="input" name="input" value={this.state.input} onChange={e => this.onChange(e)}/>
               </div>
-              <button className="button is-primary" type="submit">{this.props.addItemText}</button>
+              <button className="button is-primary is-small" type="submit">{this.props.addItemText}</button>
             </form>
           </div>
           )

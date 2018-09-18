@@ -152,7 +152,7 @@ export default class CreateEntry extends React.Component<{}, ICreateEntryState> 
               <label className="label">End at</label>
               <input className="input" type="number" name="end" value={this.state.end} onChange={e => this.onChangeNumber(e)}/>
               
-              <button className="button is-primary" type="submit">Save</button>
+              <button className="button is-primary is-small" type="submit">Save</button>
             </form>
             )
           }}
