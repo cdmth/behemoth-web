@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { Mutation } from "react-apollo";
 import Loading from '../../components/Loading'
+import CustomersSelectComponent from './CustomersSelectComponent';
 
 class CreateComponent extends React.Component<any, any> {
   constructor(props : any) {
@@ -29,7 +30,8 @@ class CreateComponent extends React.Component<any, any> {
             <form
               onSubmit={e => {
                 e.preventDefault();
-                create({ variables: { name: this.state.input} }) }}>
+                create({ variables: { name: this.state.input, customerId: this.state.id } }) }}>
+              <CustomersSelectComponent id={this.state.id} onChange={(e : any) => this.onChange(e)} /> 
               <div className="field">
                 <input className="input" name="input" value={this.state.input} onChange={e => this.onChange(e)}/>
               </div>

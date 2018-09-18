@@ -39,7 +39,7 @@ export interface IWrapComponentProps {
 
 // LeftContainer Component
 export interface ILeftContainerProps {
-  selectedItemHandler(id : string): void
+  selectedItemHandler(id : string): any
   moduleName: string
   modulePrefix: string
   addItemText: string
@@ -67,13 +67,6 @@ export interface ITitleProps {
 // Controls Component
 export interface IControlsProps extends ISelectedItemHandler {
   addItemText: string
-}
-
-// Navcontainer Component
-export interface INavContainerProps extends ISelectedItemHandler {
-  queryAll: any
-  subscription: any
-  modulePrefix: string
 }
 
 // Create Component
@@ -119,4 +112,13 @@ export interface ICustomerSelectComponent {
 
 export interface IProjectWorkersProps {
   selectedItemId: string
+}
+
+export interface ICreateProjectWorkerProps {
+  selectedItemId: string
+}
+
+export interface ICreateProjectWorkerState {
+  workerId: string
+  workerName: string
 }

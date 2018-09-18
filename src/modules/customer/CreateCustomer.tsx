@@ -2,7 +2,21 @@ import * as React from 'react'
 import { Mutation } from "react-apollo";
 import Loading from '../../components/Loading'
 
-class CreateComponent extends React.Component<any, any> {
+// Create Component
+interface ICreateComponent {
+  modulePrefix: string
+  addMutation: any
+  addItemText: string
+  deleteMutation: any
+  selectedItemHandler(id : string): void
+}
+
+interface ICreateComponentState {
+  id: string
+  input: string
+}
+
+class CreateComponent extends React.Component<ICreateComponent, ICreateComponentState> {
   constructor(props : any) {
     super(props)
     this.state = {

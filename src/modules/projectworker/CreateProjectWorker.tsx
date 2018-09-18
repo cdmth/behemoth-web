@@ -1,7 +1,7 @@
 import * as React from 'react'
 import gql from "graphql-tag";
 import { Mutation, Query } from "react-apollo";
-import { ICreateProjectWorkerProps, ICreateProjectWorkerState } from '../../interfaces'
+import { ICreateProjectWorkerProps, ICreateProjectWorkerState } from '../../components/control-interfaces'
 
 const getWorkers = gql`
   {
@@ -66,7 +66,7 @@ class CreateProjectWorker extends React.Component<ICreateProjectWorkerProps, ICr
                   create({ variables: { 
                     workerId: this.state.workerId,
                     name: this.state.workerName,
-                    projectId: this.props.selectedProjectId
+                    projectId: this.props.selectedItemId
                   }});
                 }}
               >  

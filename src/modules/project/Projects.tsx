@@ -1,7 +1,6 @@
 import * as React from 'react'
 import WrapComponent from '../../components/containers/WrapComponent'
-import { 
-  queryAllProjects,
+import {
   projectsSubscription ,
   queryProject
 } from '../../graphql/queries/queries'
@@ -12,13 +11,19 @@ import {
   updateProject
 } from '../../graphql/mutations/mutations'
 
+import ListProjects from './ListProjects'
+import CreateProject from './CreateProject'
+import OpenSingleProject from './OpenSingleProject'
+
 
 export const Projects = () => (
   <WrapComponent 
     moduleName='Projects'
     modulePrefix='projects'
     addItemText='Add project'
-    queryAll={queryAllProjects}
+    queryAll={<ListProjects />}
+    createComponent={<CreateProject />}
+    showComponent={<OpenSingleProject />}
     queryOne={queryProject}
     subscription={projectsSubscription}
     addMutation={addProject}

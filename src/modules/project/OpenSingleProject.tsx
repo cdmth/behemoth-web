@@ -1,10 +1,12 @@
 import * as React from 'react'
 import { Query } from 'react-apollo'
 
-import ToggleEdit from '../actionbuttons/ToggleEdit'
-import UpdateComponent from './UpdateComponent'
-import DeleteComponent from './DeleteComponent'
-import Loading from '../Loading'
+import ToggleEdit from '../../components/actionbuttons/ToggleEdit'
+import UpdateComponent from '../../components/module/UpdateComponent'
+import DeleteComponent from '../../components/module/DeleteComponent'
+import ProjectWorkers from '../../modules/project/ProjectWorkers'
+import Loading from '../../components/Loading'
+import CreateProjectWorker from '../../modules/projectworker/CreateProjectWorker';
 
 class SingleCustomer extends React.Component<any, any> {
   constructor(props : any ) {
@@ -28,7 +30,9 @@ class SingleCustomer extends React.Component<any, any> {
           {({ loading, error, data}) => {
             if (loading) { return <Loading /> }
 
-            if (error) { return `Error! ${error.message}` }
+            if (error) {
+              return `Error! ${error.message}`
+            }
 
             return (
               <div>
@@ -44,7 +48,11 @@ class SingleCustomer extends React.Component<any, any> {
                     deleteMutation={this.props.deleteMutation}
                     selectedItemId={this.props.selectedItemId}
                     selectedItemHandler={this.props.selectedItemHandler} />
+                  <CreateProjectWorker 
+                    selectedItemId={this.props.selectedItemId} 
+                  />
                 </div> : ''}
+                <ProjectWorkers selectedItemId={this.props.selectedItemId}/>
               </div>
             )
           }}

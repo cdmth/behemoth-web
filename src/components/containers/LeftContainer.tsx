@@ -1,26 +1,36 @@
-import { ILeftContainerProps } from '../control-interfaces'
 import * as React from 'react'
 
 import ControlsComponent from '../actionbuttons/ControlsComponent'
-import NavContainer from './NavContainer'
-import TitleComponent from '../module/TitleComponent';
+import TitleComponent from '../module/TitleComponent'
 
-export const LeftContainer : React.SFC<ILeftContainerProps> = (props) => (
-  <div className="column is-6 left-side">
-    <div className="spacer-30">
-      <TitleComponent moduleName={props.moduleName}/>
-      <ControlsComponent 
-        selectedItemHandler={props.selectedItemHandler}
-        addItemText={props.addItemText} 
-      />
-      <NavContainer 
-        selectedItemHandler={props.selectedItemHandler}
-        queryAll={props.queryAll}
-        subscription={props.subscription}  
-        modulePrefix={props.modulePrefix}
-      />
+interface ILeftContainerProps {
+  moduleName: string
+  modulePrefix: string
+  addItemText: string
+  queryAll: any
+  subscription: any
+  selectedItemHandler(id : string): any
+}
+
+
+export const LeftContainer : React.SFC<ILeftContainerProps> = (props) => {
+
+  return (
+    <div className="column is-6 left-side">
+      <div className="spacer-30">
+        <TitleComponent moduleName={props.moduleName}/>
+        <ControlsComponent 
+          selectedItemHandler={props.selectedItemHandler}
+          addItemText={props.addItemText} 
+        />
+        {React.cloneElement(props.queryAll, {
+          modulePrefix: props.modulePrefix, 
+          subscription: props.subscription, 
+          selectedItemHandler: props.selectedItemHandler
+        })}
+      </div>
     </div>
-  </div>
-)
+  )
+}
 
 export default LeftContainer

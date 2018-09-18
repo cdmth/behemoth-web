@@ -1,7 +1,6 @@
 import * as React from 'react'
 import WrapComponent from '../../components/containers/WrapComponent'
 import { 
-  queryAllCustomers,
   customersSubscription ,
   queryCustomer
 } from '../../graphql/queries/queries'
@@ -12,13 +11,19 @@ import {
   updateCustomer
 } from '../../graphql/mutations/mutations'
 
+import ListCustomers from './ListCustomers'
+import CreateComponent from '../../components/module/CreateComponent'
+import OpenSingleComponent from '../../components/module/OpenSingleComponent'
+
 
 export const Customers = () => (
   <WrapComponent 
     moduleName='Customers'
     modulePrefix='customers'
     addItemText='Add customer'
-    queryAll={queryAllCustomers}
+    queryAll={<ListCustomers />}
+    createComponent={<CreateComponent />}
+    showComponent={<OpenSingleComponent />}
     queryOne={queryCustomer}
     subscription={customersSubscription}
     addMutation={addCustomer}

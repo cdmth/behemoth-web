@@ -1,10 +1,9 @@
 import * as React from 'react'
-import { IWrapComponentProps, IWrapComponentState } from '../control-interfaces'
 
 import LeftContainer from './LeftContainer'
 import RightContainer from './RightContainer'
 
-class WrapComponent extends React.Component<IWrapComponentProps, IWrapComponentState> {
+class WrapComponent extends React.Component<any, any> {
   public state = {
     selectedItemId: 'close'
   }
@@ -30,6 +29,8 @@ class WrapComponent extends React.Component<IWrapComponentProps, IWrapComponentS
         <RightContainer 
           selectedItemHandler={this.selectedItemHandler}
           selectedItemId={this.state.selectedItemId}
+          createComponent={this.props.createComponent}
+          showComponent={this.props.showComponent}
           addItemText={this.props.addItemText}
           modulePrefix={this.props.modulePrefix}
           addMutation={this.props.addMutation}
