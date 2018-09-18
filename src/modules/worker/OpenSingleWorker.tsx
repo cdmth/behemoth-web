@@ -4,10 +4,8 @@ import { Query } from 'react-apollo'
 import ToggleEdit from '../../components/actionbuttons/ToggleEdit'
 import UpdateComponent from '../../components/module/UpdateComponent'
 import DeleteComponent from '../../components/module/DeleteComponent'
-import ProjectWorkers from '../../modules/project/ProjectWorkers'
 import Loading from '../../components/Loading'
-import CreateProjectWorker from '../../modules/projectworker/CreateProjectWorker';
-import ListProjectEntries from './ListProjectEntries';
+import CalendarWrapper from './CalendarWrapper'
 
 class SingleCustomer extends React.Component<any, any> {
   constructor(props : any ) {
@@ -31,9 +29,7 @@ class SingleCustomer extends React.Component<any, any> {
           {({ loading, error, data}) => {
             if (loading) { return <Loading /> }
 
-            if (error) {
-              return `Error! ${error.message}`
-            }
+            if (error) { return `Error! ${error.message}` }
 
             return (
               <div>
@@ -49,15 +45,8 @@ class SingleCustomer extends React.Component<any, any> {
                     deleteMutation={this.props.deleteMutation}
                     selectedItemId={this.props.selectedItemId}
                     selectedItemHandler={this.props.selectedItemHandler} />
-                  <CreateProjectWorker 
-                    selectedItemId={this.props.selectedItemId} 
-                  />
                 </div> : ''}
-                <ProjectWorkers 
-                  selectedItemId={this.props.selectedItemId}
-                  edit={this.state.edit}
-                />
-                <ListProjectEntries selectedItemId={this.props.selectedItemId} />
+                <CalendarWrapper />
               </div>
             )
           }}

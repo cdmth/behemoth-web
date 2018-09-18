@@ -1,7 +1,6 @@
 import * as React from 'react'
 import gql from "graphql-tag"
 import { Query, Mutation } from 'react-apollo'
-import { ICreateEntryState } from '../../interfaces'
 
 const getProjects = gql`
   {
@@ -24,10 +23,11 @@ const getProjectWorkers = gql`
 `
 
 const createEntry = gql`
-  mutation CreateEntry($projectId: String!, $workerId: String!, $start: Int, $end: Int, $description: String) {
-    createEntry(projectId: $projectId, workerId: $workerId, start: $start, end: $end, description: $description) {
+  mutation CreateEntry($projectId: String!, $workerId: String!, $name: String, $start: Int, $end: Int, $description: String) {
+    createEntry(projectId: $projectId, workerId: $workerId, name: $name, start: $start, end: $end, description: $description) {
       projectId
       workerId
+      name
       start
       end
       description
@@ -35,7 +35,7 @@ const createEntry = gql`
   }
 `
 
-export default class CreateEntry extends React.Component<{}, ICreateEntryState> {
+export default class CreateEntry extends React.Component<{}, any> {
   constructor(props: any) {
     super(props)
 
@@ -51,7 +51,20 @@ export default class CreateEntry extends React.Component<{}, ICreateEntryState> 
   public onChange(e:any) {
     // @ts-ignore
     this.setState({
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
+    })
+  }
+
+  public mapper(e:any, data: any) {
+    const index = data.findIndex((x:any) => x.workerId === e.target.value)
+    return data[index].name
+  }
+
+  public onChangeSelect(e:any, data: any) {
+    // @ts-ignore
+    this.setState({
+      [e.target.name]: e.target.value,
+      name: this.mapper(e, data)
     })
   }
 
@@ -107,7 +120,7 @@ export default class CreateEntry extends React.Component<{}, ICreateEntryState> 
                   <div>
                     <label className="label">Select project</label>
                     <div className="select">
-                      <select className="input" name="projectId" onChange={e => this.onChange(e)}>
+                      <select className="input" name="projectId" onChange={(e) => this.onChange(e)}>
                         {data.projects.map((project:any) => (
                           <option key={project._id} value={project._id}>{project.name}</option>
                         ))}
@@ -119,8 +132,7 @@ export default class CreateEntry extends React.Component<{}, ICreateEntryState> 
               </Query>
               
               <Query query={getProjectWorkers} 
-                variables={{projectId: this.state.projectId}}
-                onCompleted={(val) => this.setDefaultProjectWorker(val)}>
+                variables={{projectId: this.state.projectId}}>
               {({ loading, error, data}) => {
                 if (loading) {
                   return "Loading"
@@ -130,11 +142,11 @@ export default class CreateEntry extends React.Component<{}, ICreateEntryState> 
                   return `Error! ${error.message}`
                 }
 
-                console.log(data)
+                console.log(this.state)
                 
                 return (
                   <div className="select">
-                    <select name="workerId" onChange={e => this.onChange(e)}>
+                    <select name="workerId" onChange={(e:any) => this.onChangeSelect(e, data.getWorkersByProjectId.workers)}>
                     {data.getWorkersByProjectId.workers.map((worker: any) => 
                       <option key={worker.workerId} value={worker.workerId}>{worker.name}</option>
                     )}

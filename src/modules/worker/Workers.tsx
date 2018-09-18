@@ -13,7 +13,7 @@ import {
 
 import ListWorkers from './ListWorkers'
 import CreateComponent from '../../components/module/CreateComponent'
-import OpenSingleComponent from '../../components/module/OpenSingleComponent'
+import OpenSingleWorker from './OpenSingleWorker'
 
 
 export const Workers = () => (
@@ -23,7 +23,7 @@ export const Workers = () => (
     addItemText='Add worker'
     queryAll={<ListWorkers />}
     createComponent={<CreateComponent />}
-    showComponent={<OpenSingleComponent />}
+    showComponent={<OpenSingleWorker />}
     queryOne={queryWorker}
     subscription={workersSubscription}
     addMutation={addWorker}

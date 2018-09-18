@@ -90,3 +90,17 @@ export const projectsSubscription = gql`
     }
   }
 `
+
+export const entriesByProjectId = gql`
+  query entriesByProjectId($projectId: String!) {
+    entriesByProjectId(projectId: $projectId) {
+      _id
+      name
+      workerId
+      description
+      start
+      end
+      projectId
+    }
+  }
+`

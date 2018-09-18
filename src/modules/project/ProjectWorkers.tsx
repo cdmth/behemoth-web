@@ -47,21 +47,20 @@ const ProjectWorkers : React.SFC<any> = (props) => {
           if (!unsubscribe) {
             unsubscribe = subscribeToMore({
               document: projectWorkersSubscription,
-              updateQuery: () => {
-                refetch().then(data => data)
+              updateQuery: () => { 
+                refetch().then((data : any) => data) 
               }
             })
           }
 
           return (
             <div>
-              <ul>
               {data.getWorkersByProjectId.workers.map((worker: any) => (
-                <li key={worker.workerId}>
+                <div className="card user-card" key={worker.workerId}>
                   <figure className="image is-64x64">
                     <img className="is-rounded" src="https://bulma.io/images/placeholders/128x128.png" />
                   </figure>
-                  {worker.name}
+                  <p className='is-size-6'>{worker.name}</p>
                   {props.edit ?
                   <Mutation mutation={deleteWorker}>
                     {(deleteWrkr) => (
@@ -80,9 +79,8 @@ const ProjectWorkers : React.SFC<any> = (props) => {
                     )}
                   </Mutation>
                   : '' }
-                </li>
+                </div>
               ))}
-              </ul>
             </div>
           )
         }}

@@ -85,3 +85,9 @@
     height: 26px;
   }
 }
+
+.user-card {
+  width: 120px;
+  padding: 4px;
+  display: inline-block;
+}
