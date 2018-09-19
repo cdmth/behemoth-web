@@ -27,7 +27,7 @@ const getProjectWorkers = gql`
 `
 
 const createEntry = gql`
-  mutation CreateEntry($projectId: String!, $workerId: String!, $name: String, $start: Int, $end: Int, $description: String) {
+  mutation CreateEntry($projectId: String!, $workerId: String!, $name: String, $start: String, $end: String, $description: String) {
     createEntry(projectId: $projectId, workerId: $workerId, name: $name, start: $start, end: $end, description: $description) {
       projectId
       workerId
