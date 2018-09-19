@@ -1,7 +1,7 @@
 import * as React from 'react'
 import gql from "graphql-tag"
 import { Query, Mutation } from 'react-apollo'
-import CalendarWrapper from '../worker/CalendarWrapper'
+import CalendarWrapper from './CalendarWrapper'
 import { TimePicker } from 'antd'
 import * as moment from 'moment'
 import './timepicker.css'
@@ -11,6 +11,20 @@ const getProjects = gql`
     projects {
       _id
       name
+    }
+  }
+`
+
+const getEntries = gql`
+  {
+    entries {
+      _id
+      projectId
+      workerId
+      name
+      start
+      end
+      description
     }
   }
 `
@@ -46,8 +60,8 @@ export default class CreateEntry extends React.Component<{}, any> {
     this.state = {
       projectId: '',
       workerId: '',
-      start: 0, 
-      end: 0,
+      start: moment(), 
+      end: moment(),
       description: '',
       pickerOpen: false
     }
@@ -221,11 +235,48 @@ export default class CreateEntry extends React.Component<{}, any> {
             )
           }}
         </Mutation>
-        <CalendarWrapper 
-          handleStartChange={(start:any)  => this.handleStartChange(start)} 
-          handleEndChange={(end:any)  => this.handleEndChange(end)} 
-          selectable={!this.state.pickerOpen}
-          />
+        <Query query={getEntries}>
+          {({ loading, error, data}) => {
+            if (loading) {
+              return "Loading"
+            }
+
+            if (error) {
+              return `Error! ${error.message}`
+            }
+
+            const entries  = data.entries.map((item: any) => {
+              return {
+                workerId: item._id,
+                title: `${item.name}: ${item.description}`,
+                start: moment(item.start).toDate(),
+                end: moment(item.end).toDate(),
+              }
+            })
+
+            const addStateToEntires = () => {
+              const onGoing = {
+                id: this.state.workerId,
+                title: `Draft! ${this.state.name}: ${this.state.description}`,
+                start: moment(this.state.start).toDate(),
+                end: moment(this.state.end).toDate(),
+              }
+
+              entries.push(onGoing)
+            }
+
+            addStateToEntires()
+
+            return (
+            <CalendarWrapper 
+              handleStartChange={(start:any)  => this.handleStartChange(start)} 
+              handleEndChange={(end:any)  => this.handleEndChange(end)} 
+              selectable={!this.state.pickerOpen}
+              events={entries}
+              />
+            )
+          }}
+        </Query>>
       </div>
     )
   }
