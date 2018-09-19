@@ -18,10 +18,8 @@ const getProjects = gql`
 const getProjectWorkers = gql`
   query getWorkersByProjectId($projectId: String!) {
     getWorkersByProjectId(projectId: $projectId) {
-      workers {
-        workerId
-        name
-      }
+      workerId
+      name
     }
   }
 `
@@ -100,9 +98,9 @@ export default class CreateEntry extends React.Component<{}, any> {
   } 
 
   public setDefaultProjectWorker(val:any) {
-    if (val.getWorkersByProjectId.workers.length) {
+    if (val.getWorkersByProjectId.length) {
       this.setState({
-        workerId: val.getWorkersByProjectId.workers[0].workerId
+        workerId: val.getWorkersByProjectId[0].workerId
       })
     }
   }
@@ -176,8 +174,8 @@ export default class CreateEntry extends React.Component<{}, any> {
                 return (
                   <div className="field">
                     <div className="select">
-                      <select className="input is-small" name="workerId" onChange={(e:any) => this.onChangeSelect(e, data.getWorkersByProjectId.workers)}>
-                      {data.getWorkersByProjectId.workers.map((worker: any) => 
+                      <select className="input is-small" name="workerId" onChange={(e:any) => this.onChangeSelect(e, data.getWorkersByProjectId)}>
+                      {data.getWorkersByProjectId.map((worker: any) => 
                         <option key={worker.workerId} value={worker.workerId}>{worker.name}</option>
                       )}
                       </select>

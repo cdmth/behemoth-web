@@ -5,17 +5,15 @@ import gql from 'graphql-tag'
 const getProjectWorkers = gql`
   query getWorkersByProjectId($projectId: String!) {
     getWorkersByProjectId(projectId: $projectId) {
-      workers {
       workerId
       name
-      }
     }
   }
 `
 
 const deleteWorker = gql`
-  mutation removeWorkerFromProject($workerId: String!, $projectId: String!) {
-    removeWorkerFromProject(workerId: $workerId, projectId: $projectId) {
+  mutation deleteWorkerFromProject($workerId: String!, $projectId: String!) {
+    deleteWorkerFromProject(workerId: $workerId, projectId: $projectId) {
       message
     }
   }
@@ -24,7 +22,8 @@ const deleteWorker = gql`
 const projectWorkersSubscription = gql`
   subscription {
     projectWorkers {
-      projectId
+      workerId
+      name
     }
   }
 `
@@ -55,7 +54,7 @@ const ProjectWorkers : React.SFC<any> = (props) => {
 
           return (
             <div>
-              {data.getWorkersByProjectId.workers.map((worker: any) => (
+              {data.getWorkersByProjectId.map((worker: any) => (
                 <div className="card user-card" key={worker.workerId}>
                   <figure className="image is-64x64">
                     <img className="is-rounded" src="https://bulma.io/images/placeholders/128x128.png" />
