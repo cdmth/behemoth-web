@@ -4,7 +4,6 @@ import * as moment from 'moment'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 import './calendarStyle.css'
 
-// @ts-ignore
 BigCalendar.momentLocalizer(moment)
 
 class SingleCustomer extends React.Component<any, any> {
