@@ -149,3 +149,17 @@ export const createEntry = gql`
     }
   }
 `
+
+export const entriesSubscription = gql`
+  subscription {
+    entries {
+      _id
+      projectId
+      workerId
+      name
+      start
+      end
+      description
+    }
+  }
+`

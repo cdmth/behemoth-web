@@ -99,3 +99,12 @@ export const updateEntry = gql`
     }
   }
 `
+
+// Delete entry
+export const deleteEntry = gql`
+mutation deleteEntry($_id: String!) {
+  deleteEntry(_id: $_id) {
+    message
+  }
+}
+`

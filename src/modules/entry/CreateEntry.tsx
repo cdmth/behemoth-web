@@ -2,8 +2,8 @@ import * as React from 'react'
 import { Query, Mutation } from 'react-apollo'
 import CalendarWrapper from './CalendarWrapper'
 import { TimePicker, DatePicker } from 'antd'
-import { getProjects, getEntries, getProjectWorkers, createEntry } from '../../graphql/queries/queries'
-import { updateEntry } from '../../graphql/mutations/mutations'
+import { getProjects, getEntries, getProjectWorkers, createEntry, entriesSubscription } from '../../graphql/queries/queries'
+import { updateEntry, deleteEntry } from '../../graphql/mutations/mutations'
 import * as moment from 'moment'
 
 import Loading from '../../components/Loading'
@@ -23,7 +23,8 @@ export default class CreateEntry extends React.Component<{}, any> {
       description: '',
       entry: {},
       edit: false,
-      initTime: true
+      initTime: true,
+      creating: false
     }
   }
 
@@ -58,16 +59,17 @@ export default class CreateEntry extends React.Component<{}, any> {
   }
 
   public render() {
+    let unsubscribe: any = null
+
     return (
       <div className="columns">
         <div className="column is-2">
-          <Mutation mutation={this.state.edit ? updateEntry : createEntry}>
+          <Mutation mutation={this.state.edit ? updateEntry : createEntry} onCompleted={() => this.setState({edit: false, initTime: true})}>
           {(create, { loading }) => {
             if(loading) { return <Loading /> }
 
             const entry = () => {
               const { _id, start, end, description, projectId, workerId } = this.state
-
               return { _id, start, end, name: this.getNameObject(workerId), description, projectId, workerId }
             }
 
@@ -75,15 +77,16 @@ export default class CreateEntry extends React.Component<{}, any> {
               <form
                 onSubmit={e => {
                   e.preventDefault();
+                  this.setState({creating: true})
                   create({ variables: entry() })
                 }}
               >
               <div className="field add-bar">
                 <div className="">
-                  <Query 
+                  <Query
                     query={getProjects} 
                     onCompleted={(data : any) => this.setState({projectId: data.projects[0]._id})}>
-                    {({ loading, error, data }) => {
+                    {({ loading, error, data}) => {
                       if (loading) { return <Loading /> }
                       if (error) { return `Error! ${error}`}
 
@@ -172,11 +175,23 @@ export default class CreateEntry extends React.Component<{}, any> {
                     </div>
                   </div>
                   <button 
-                    className="button is-large is-fullwidth top-margin-20 is-link" 
+                    className="button is-medium is-fullwidth top-margin-20 is-primary" 
                     type="submit">
                     {this.state.edit ? 'Update entry' : 'Create entry'}
                   </button>
-                </div>
+                </div>                  
+                <Mutation mutation={deleteEntry}>
+                  {(deleteC) => (
+                    <button
+                      className="button is-medium top-margin-20 is-danger"
+                      onClick={(e) => { 
+                        e.preventDefault();
+                        deleteC({ variables: { _id: this.state._id } 
+                        });
+                      }}>
+                      Delete
+                    </button>)}
+                </Mutation>
                 </div>
               </form>
               )
@@ -184,11 +199,22 @@ export default class CreateEntry extends React.Component<{}, any> {
           </Mutation>
         </div>
         <div className="column">
-          <Query query={getEntries}>
-            {({ loading, error, data}) => {
-              if (loading) { return "Loading" }
+          <Query query={getEntries} onCompleted={() => this.setState({creating:false})}>
+            {({ loading, error, data, subscribeToMore, refetch}) => {
+              if (loading) { 
+                return <Loading /> 
+              }
 
               if (error) { return `Error! ${error.message}` }
+
+              if (!unsubscribe) {
+                unsubscribe = subscribeToMore({
+                  document: entriesSubscription,
+                  updateQuery: () => { 
+                    refetch().then((data : any) => data) 
+                  }
+                })
+              }
 
               const entries  = data.entries.map((item: any) => {
                 return {
@@ -216,7 +242,7 @@ export default class CreateEntry extends React.Component<{}, any> {
                 })
               }
 
-              if(!this.state.edit && !this.state.initTime) { addDraft() }
+              if(!this.state.edit && !this.state.initTime && !this.state.creating) { addDraft() }
 
               return (
                 <CalendarWrapper 

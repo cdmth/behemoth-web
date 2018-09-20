@@ -21,7 +21,6 @@ class SingleCustomer extends React.Component<any, any> {
   }
 
   public onSelectSlot(times) {
-    console.log(times)
     this.props.handleCreateClick(times)
   }
 
@@ -29,9 +28,6 @@ class SingleCustomer extends React.Component<any, any> {
     this.props.handleEntryClick(entry)
   } 
 
-  public testi(x) {
-    console.log(x)
-  }
 
   public render() {
     const minTime = new Date();
