@@ -155,3 +155,28 @@
 .task-text {
   height: 100px;
 }
+
+.hour-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hour-marker-wrapper {
+  flex: none;
+  max-width: 50%;
+}
+
+.hour-marker {
+  color: #002b36;
+  border: 4px solid #002b36;
+  border-radius: 6px;
+  padding: 0px 12px 3px;
+  font-weight: bold;
+}
+
+.show-hours {
+  color: #FFF;
+  line-height: 2.5;
+  width: 32px;
+}

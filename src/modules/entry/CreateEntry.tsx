@@ -73,6 +73,11 @@ export default class CreateEntry extends React.Component<{}, any> {
               return { _id, start, end, name: this.getNameObject(workerId), description, projectId, workerId }
             }
 
+            const duration = moment.duration(moment(this.state.end).diff(moment(this.state.start)))
+            const hours : any= Math.round(duration.asHours()).toString()
+            const minutes : any = (duration.asHours() % 1 * 60).toString()
+          
+
             return (
               <form
                 onSubmit={e => {
@@ -167,6 +172,13 @@ export default class CreateEntry extends React.Component<{}, any> {
                         />
                     </div>
                     <div className="field is-fullwidth">
+                      <p className="is-size-7 show-hours">
+                        <strong>
+                        {hours === '0' && minutes === '0' ? '' : hours }{minutes === '0' ? (hours === '0' ? '' : ':00h') : ':' + minutes + 'h'}
+                        </strong>
+                      </p>
+                    </div>
+                    <div className="field is-fullwidth">
                       <TimePicker 
                         format={'HH:mm'}
                         onChange={(end : any) => this.setState({end})}
@@ -232,7 +244,7 @@ export default class CreateEntry extends React.Component<{}, any> {
               const addDraft = () => {
                 entries.push({
                   workerId: this.state.workerId,
-                  title: `${this.state.name}: ${this.state.description}`,
+                  title: this.state.name,
                   start: moment(this.state.start).toDate(),
                   end: moment(this.state.end).toDate(),
                   name: this.state.name,

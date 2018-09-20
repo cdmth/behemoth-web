@@ -6,6 +6,24 @@ import '../../calendarStyle.css'
 
 BigCalendar.momentLocalizer(moment)
 
+function Event({ event } : any) {
+
+  const duration = moment.duration(moment(event.end).diff(moment(event.start)))
+  const hours = duration.asHours()
+
+  return (
+    <span>
+      <p className="is-size-5">{event.title}</p>
+      <p className="is-size-6">{event.description}</p>
+      <div className="hour-wrapper has-text-centered">
+        <div className="hour-marker-wrapper">
+          <p className="hour-marker is-size-3">{hours}</p>
+        </div>
+      </div>
+    </span>
+  )
+}
+
 class SingleCustomer extends React.Component<any, any> {
   constructor(props) {
     super(props)
@@ -49,6 +67,9 @@ class SingleCustomer extends React.Component<any, any> {
         onSelectEvent={(entry:any) => this.onSelectedEvent(entry)}
         min={minTime}
         max={maxTime}
+        components={{
+          event: Event
+        }}
         />
       </div>
     )
