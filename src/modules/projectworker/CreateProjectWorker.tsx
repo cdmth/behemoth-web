@@ -15,7 +15,8 @@ const getWorkers = gql`
 const addProjectWorker = gql`
   mutation addWorkerToProject($workerId: String!, $name: String, $projectId: String!) {
     addWorkerToProject(workerId: $workerId, name: $name, projectId: $projectId) {
-      projectId
+      workerId
+      name
     }
   }
 `
