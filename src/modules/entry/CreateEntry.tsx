@@ -1,282 +1,234 @@
 import * as React from 'react'
-import gql from "graphql-tag"
 import { Query, Mutation } from 'react-apollo'
 import CalendarWrapper from './CalendarWrapper'
-import { TimePicker } from 'antd'
+import { TimePicker, DatePicker } from 'antd'
+import { getProjects, getEntries, getProjectWorkers, createEntry } from '../../graphql/queries/queries'
+import { updateEntry } from '../../graphql/mutations/mutations'
 import * as moment from 'moment'
+
+import Loading from '../../components/Loading'
+
 import './timepicker.css'
-
-const getProjects = gql`
-  {
-    projects {
-      _id
-      name
-    }
-  }
-`
-
-const getEntries = gql`
-  {
-    entries {
-      _id
-      projectId
-      workerId
-      name
-      start
-      end
-      description
-    }
-  }
-`
-
-const getProjectWorkers = gql`
-  query getWorkersByProjectId($projectId: String!) {
-    getWorkersByProjectId(projectId: $projectId) {
-      workers {
-        workerId
-        name
-      }
-    }
-  }
-`
-
-const createEntry = gql`
-  mutation CreateEntry($projectId: String!, $workerId: String!, $name: String, $start: String, $end: String, $description: String) {
-    createEntry(projectId: $projectId, workerId: $workerId, name: $name, start: $start, end: $end, description: $description) {
-      projectId
-      workerId
-      name
-      start
-      end
-      description
-    }
-  }
-`
 
 export default class CreateEntry extends React.Component<{}, any> {
   constructor(props: any) {
     super(props)
 
     this.state = {
+      _id: '',
       projectId: '',
       workerId: '',
-      start: moment(), 
+      start: moment(),
       end: moment(),
       description: '',
-      pickerOpen: false
+      entry: {},
+      edit: false,
+      initTime: true
     }
   }
 
-  public handleStartChange(start: any) {
-    this.setState({
-      start
-    })
+  public changeDate(date) {
+
+    const start = this.state.start.year(date.year()).month(date.month()).date(date.date())
+    const end = this.state.end.year(date.year()).month(date.month()).date(date.date())
+
+    this.setState({start, end})
   }
 
-  public handleEndChange(end: any) {
-    this.setState({
-      end
-    })
+  public handleEntryClick(entry : any) {
+    entry.start = moment(entry.start)
+    entry.end = moment(entry.end)
+
+    this.setState({...entry, edit: entry._id !== '' ? true : false, initTime: false})
   }
 
-  public onChange(e:any) {
-    // @ts-ignore
-    this.setState({
-      [e.target.name]: e.target.value,
-    })
+  public handleCreateClick(times : any) {
+    times.start = moment(times.start)
+    times.end = moment(times.end)
+
+    const {start, end} = times
+
+    this.setState({ start, end, edit: false, _id: '', initTime: false})
   }
 
-  public mapper(e:any, data: any) {
-    const index = data.findIndex((x:any) => x.workerId === e.target.value)
-    return data[index].name
-  }
 
-  public onChangeSelect(e:any, data: any) {
-    // @ts-ignore
-    this.setState({
-      [e.target.name]: e.target.value,
-      name: this.mapper(e, data)
-    })
-  }
-
-  public onChangeNumber(e:any) {
-    const n = parseInt(e.target.value, 0)
-    // @ts-ignore
-    this.setState({
-      [e.target.name]: isNaN(n) ? 0 : n
-    })
-  }
-
-  public setDefaultProject(val:any) {
-    this.setState({
-      projectId: val.projects[0]._id
-    })
-  } 
-
-  public setDefaultProjectWorker(val:any) {
-    if (val.getWorkersByProjectId.workers.length) {
-      this.setState({
-        workerId: val.getWorkersByProjectId.workers[0].workerId
-      })
-    }
-  }
-
-  public togglePicker(x) {
-    this.setState({
-      pickerOpen: x
-    })
+  public getNameObject(id, data = this.state.workers) {
+    const index = data.findIndex((i) => i.workerId === id)
+    return data[index].name || 'No name found on entry'
   }
 
   public render() {
     return (
-      <div>
-      <Mutation mutation={createEntry}>
-        {(create, { loading }) => {
+      <div className="columns">
+        <div className="column is-2">
+          <Mutation mutation={this.state.edit ? updateEntry : createEntry}>
+          {(create, { loading }) => {
+            if(loading) { return <Loading /> }
 
-          if(loading) {
-            return "Loading"
-            console.log(moment())
-          }
+            const entry = () => {
+              const { _id, start, end, description, projectId, workerId } = this.state
 
-          return (
-            <form
-              onSubmit={e => {
-                e.preventDefault();
-                create({ variables: this.state })
-              }}
-            >
-            <div className="field is-horizontal add-bar">
-              <div className="field-label is-normal">
-                <label className="label">From</label>
-              </div>
-              <div className="field-body">
-              <Query query={getProjects} onCompleted={(val) => this.setDefaultProject(val)}>
-              {({ loading, error, data }) => {
-                if (loading) {
-                  return 'Loading...'
-                }
-                console.log(data)
-                if (error) {
-                  return `Error! ${error}`
-                }
-
-                return (
-                  <div className="field">
-                    <div className="select">
-                      <select className="input is-small" name="projectId" onChange={(e) => this.onChange(e)}>
-                        {data.projects.map((project:any) => (
-                          <option key={project._id} value={project._id}>{project.name}</option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-                  )
-                }}
-              </Query>
-
-              <Query query={getProjectWorkers} 
-                variables={{projectId: this.state.projectId}}>
-              {({ loading, error, data}) => {
-                if (loading) {
-                  return "Loading"
-                }
-
-                if (error) {
-                  return `Error! ${error.message}`
-                }
-
-                console.log(this.state)
-                
-                return (
-                  <div className="field">
-                    <div className="select">
-                      <select className="input is-small" name="workerId" onChange={(e:any) => this.onChangeSelect(e, data.getWorkersByProjectId.workers)}>
-                      {data.getWorkersByProjectId.workers.map((worker: any) => 
-                        <option key={worker.workerId} value={worker.workerId}>{worker.name}</option>
-                      )}
-                      </select>
-                    </div>
-                  </div>
-                  )
-                }}
-              </Query>
-              <div className="field">
-                <input 
-                  className="input is-small" 
-                  name="description" 
-                  placeholder="Add description"
-                  value={this.state.description} 
-                  onChange={e => this.onChange(e)}/>
-              </div>
-              <div className="field">
-                <TimePicker  
-                  format={'HH:mm'}
-                  onChange={(start: any) => this.handleStartChange(start)}
-                  onOpenChange={(x: boolean) => this.togglePicker(x)}
-                  value={this.state.start}
-                  />
-              </div>
-              <div className="field">
-                <TimePicker 
-                  format={'HH:mm'} 
-                  onChange={(end: any) => this.handleEndChange(end)}
-                  onOpenChange={(x: boolean) => this.togglePicker(x)}
-                  value={this.state.end}
-                  />
-              </div>
-              <div className="field">
-                <button 
-                  className="button is-primary is-small" 
-                  type="submit">Save</button>
-              </div>
-              </div>
-              </div>
-            </form>
-            )
-          }}
-        </Mutation>
-        <Query query={getEntries}>
-          {({ loading, error, data}) => {
-            if (loading) {
-              return "Loading"
+              return { _id, start, end, name: this.getNameObject(workerId), description, projectId, workerId }
             }
-
-            if (error) {
-              return `Error! ${error.message}`
-            }
-
-            const entries  = data.entries.map((item: any) => {
-              return {
-                workerId: item._id,
-                title: `${item.name}: ${item.description}`,
-                start: moment(item.start).toDate(),
-                end: moment(item.end).toDate(),
-              }
-            })
-
-            const addStateToEntires = () => {
-              const onGoing = {
-                id: this.state.workerId,
-                title: `Draft! ${this.state.name}: ${this.state.description}`,
-                start: moment(this.state.start).toDate(),
-                end: moment(this.state.end).toDate(),
-              }
-
-              entries.push(onGoing)
-            }
-
-            addStateToEntires()
 
             return (
-            <CalendarWrapper 
-              handleStartChange={(start:any)  => this.handleStartChange(start)} 
-              handleEndChange={(end:any)  => this.handleEndChange(end)} 
-              selectable={!this.state.pickerOpen}
-              events={entries}
-              />
-            )
-          }}
-        </Query>>
+              <form
+                onSubmit={e => {
+                  e.preventDefault();
+                  create({ variables: entry() })
+                }}
+              >
+              <div className="field add-bar">
+                <div className="">
+                  <Query 
+                    query={getProjects} 
+                    onCompleted={(data : any) => this.setState({projectId: data.projects[0]._id})}>
+                    {({ loading, error, data }) => {
+                      if (loading) { return <Loading /> }
+                      if (error) { return `Error! ${error}`}
+
+                      return (
+                        <div className="field">
+                          <div className="select is-fullwidth">
+                            <select 
+                              className="input" 
+                              onChange={(event : any) => this.setState({projectId: event.target.value})}
+                              value={this.state.projectId}
+                              disabled={!!this.state.edit}
+                              >
+                              {data.projects.map((project:any) => (
+                                <option key={project._id} value={project._id}>{project.name}</option>
+                              ))}
+                            </select>
+                          </div>
+                        </div>
+                        )
+                     }}
+                  </Query>
+
+                  <Query 
+                    query={getProjectWorkers}
+                    variables={{projectId: this.state.projectId}}
+                    onCompleted={(data : any) => this.setState({
+                          workers: data.getWorkersByProjectId,
+                          workerId: data.getWorkersByProjectId[0].workerId, 
+                          name: this.getNameObject(data.getWorkersByProjectId[0].workerId, data.getWorkersByProjectId)
+                        })
+                      }>
+                    {({ loading, error, data }) => {
+                      if (loading) { return <Loading /> }
+                      if (error) { return `Error! ${error}`}
+                    
+                      return (
+                        <div className="field">
+                          <div className="select is-fullwidth">
+                            <select
+                              className="input is-fullwidth"
+                              onChange={(event : any) => this.setState({
+                                workerId: event.target.value, 
+                                name: this.getNameObject(event.target.value)
+                              })}
+                              value={this.state.workerId}
+                              >
+                              {data.getWorkersByProjectId.map((worker: any) => 
+                                <option label={worker.name} key={worker.workerId} value={worker.workerId} />
+                              )}
+                            </select>
+                          </div>
+                        </div>
+                      )
+                    }}
+                  </Query>
+
+                  <div className="field">
+                    <textarea 
+                      className="input task-text is-fullwidth" 
+                      name="description"
+                      placeholder="Add description"
+                      onChange={(event : any) => this.setState({description: event.target.value})}
+                      value={this.state.description}
+                      />
+                    </div>
+                  <div className="field">
+                    <DatePicker
+                      onChange={(date : any) => this.changeDate(date)}
+                      value={this.state.start}
+                    />
+                  </div>
+                  <div className="field-body">
+                    <div className="field is-fullwidth">
+                      <TimePicker  
+                        format={'HH:mm'}
+                        onChange={(start : any) => this.setState({start})}
+                        value={this.state.start}
+                        />
+                    </div>
+                    <div className="field is-fullwidth">
+                      <TimePicker 
+                        format={'HH:mm'}
+                        onChange={(end : any) => this.setState({end})}
+                        value={this.state.end}
+                        />
+                    </div>
+                  </div>
+                  <button 
+                    className="button is-large is-fullwidth top-margin-20 is-link" 
+                    type="submit">
+                    {this.state.edit ? 'Update entry' : 'Create entry'}
+                  </button>
+                </div>
+                </div>
+              </form>
+              )
+            }}
+          </Mutation>
+        </div>
+        <div className="column">
+          <Query query={getEntries}>
+            {({ loading, error, data}) => {
+              if (loading) { return "Loading" }
+
+              if (error) { return `Error! ${error.message}` }
+
+              const entries  = data.entries.map((item: any) => {
+                return {
+                  workerId: item.workerId,
+                  title: `${item.name}: ${item.description}`,
+                  start: moment(item.start).toDate(),
+                  end: moment(item.end).toDate(),
+                  name: item.name,
+                  projectId: item.projectId,
+                  _id: item._id,
+                  description: item.description
+                }
+              })
+
+              const addDraft = () => {
+                entries.push({
+                  workerId: this.state.workerId,
+                  title: `${this.state.name}: ${this.state.description}`,
+                  start: moment(this.state.start).toDate(),
+                  end: moment(this.state.end).toDate(),
+                  name: this.state.name,
+                  projectId: this.state.projectId,
+                  _id: this.state._id,
+                  description: this.state.description
+                })
+              }
+
+              if(!this.state.edit && !this.state.initTime) { addDraft() }
+
+              return (
+                <CalendarWrapper 
+                  handleCreateClick={(times : any) => this.handleCreateClick(times)}
+                  selectable={true}
+                  events={entries}
+                  handleEntryClick={(entry : any) => this.handleEntryClick(entry)}
+                  />
+              )
+            }}
+          </Query>
+        </div>
       </div>
     )
   }

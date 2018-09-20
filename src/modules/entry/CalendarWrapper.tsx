@@ -10,21 +10,27 @@ class SingleCustomer extends React.Component<any, any> {
   constructor(props) {
     super(props)
     this.state = {
-      view: 'work_week'
+      view: 'week'
     }
   }
 
   public onView(x) {
-    console.log(x)
     this.setState({
       view: x
     })
   }
 
-  public onSelectSlot(x) {
-    console.log(this.props)
-    this.props.handleStartChange(moment(x.start))
-    this.props.handleEndChange(moment(x.end))
+  public onSelectSlot(times) {
+    console.log(times)
+    this.props.handleCreateClick(times)
+  }
+
+  public onSelectedEvent(entry) {
+    this.props.handleEntryClick(entry)
+  } 
+
+  public testi(x) {
+    console.log(x)
   }
 
   public render() {
@@ -43,7 +49,8 @@ class SingleCustomer extends React.Component<any, any> {
         onView={this.onView}
         views={['day', 'work_week', 'week', 'month']}
         selectable={this.props.selectable}
-        onSelectSlot={(e:any) => this.onSelectSlot(e)}
+        onSelectSlot={(times:any) => this.onSelectSlot(times)}
+        onSelectEvent={(entry:any) => this.onSelectedEvent(entry)}
         min={minTime}
         max={maxTime}
         />

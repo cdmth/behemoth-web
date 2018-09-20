@@ -84,3 +84,18 @@ mutation deleteProject($_id: String!) {
   }
 }
 `
+
+// Update entry
+export const updateEntry = gql`
+  mutation updateEntry($_id: String!, $projectId: String, $workerId: String, $name: String, $start: String, $end: String, $description: String) {
+    updateEntry(_id: $_id, projectId: $projectId, workerId: $workerId, name: $name, start: $start end: $end, description: $description) {
+      _id
+      projectId
+      workerId
+      name
+      start
+      end
+      description
+    }
+  }
+`

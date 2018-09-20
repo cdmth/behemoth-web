@@ -104,3 +104,48 @@ export const entriesByProjectId = gql`
     }
   }
 `
+
+export const getProjects = gql`
+  {
+    projects {
+      _id
+      name
+    }
+  }
+`
+
+export const getEntries = gql`
+  {
+    entries {
+      _id
+      projectId
+      workerId
+      name
+      start
+      end
+      description
+    }
+  }
+`
+
+export const getProjectWorkers = gql`
+  query getWorkersByProjectId($projectId: String!) {
+    getWorkersByProjectId(projectId: $projectId) {
+      workerId
+      name
+    }
+  }
+`
+
+export const createEntry = gql`
+  mutation CreateEntry($projectId: String!, $workerId: String!, $name: String, $start: String, $end: String, $description: String) {
+    createEntry(projectId: $projectId, workerId: $workerId, name: $name, start: $start, end: $end, description: $description) {
+      projectId
+      workerId
+      name
+      start
+      end
+      description
+    }
+  }
+`

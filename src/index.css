@@ -131,27 +131,27 @@
   color: #bfbfbf;
 }
 
-/* width */
 ::-webkit-scrollbar {
   width: 5px;
 }
 
-/* Track */
 ::-webkit-scrollbar-track {
   background: #073642; 
 }
 
-/* Handle */
 ::-webkit-scrollbar-thumb {
   background: #7bff00; 
   border-radius: 4px;
 }
 
-/* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #073642; 
 }
 
 .add-bar {
   max-width: 960px;
+}
+
+.task-text {
+  height: 100px;
 }
