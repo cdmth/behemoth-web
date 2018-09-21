@@ -4,14 +4,7 @@ import { queryAllProjects, projectsSubscription } from '../../graphql/queries/qu
 import Loading from '../../components/Loading'
 import ProjectListContainer from '../../components/querylist/ProjectListcontainer'
 
-interface IQueryComponentProps {
-  modulePrefix: string
-  data: any
-  subscription: any
-  selectedItemHandler(id : any): any
-}
-
-class QueryComponent extends React.Component<IQueryComponentProps, {}> {
+class QueryComponent extends React.Component<any, {}> {
 
   public componentWillMount() {
     const { subscribeToMore, refetch } = this.props.data;
@@ -30,6 +23,7 @@ class QueryComponent extends React.Component<IQueryComponentProps, {}> {
         selectedItemHandler={this.props.selectedItemHandler}
         modulePrefix={this.props.modulePrefix}
         data={customer}
+        selectedItemId={this.props.selectedItemId}
       />
     ))
   }

@@ -31,7 +31,7 @@ class SingleCustomer extends React.Component<any, any> {
             if (error) { return `Error! ${error.message}` }
 
             return (
-              <div>
+              <div className="content">
                 <p className="title">{data[Object.keys(data)[0]].name}</p>
                 {this.state.edit ? 
                 <div>

@@ -2,13 +2,11 @@ import * as React from 'react'
 import BigCalendar from 'react-big-calendar'
 import * as moment from 'moment'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
-import '../../calendarStyle.css'
 import { countHours } from '../../helpers/timeHelper'
 
 BigCalendar.momentLocalizer(moment)
 
 function Event({ event } : any) {
-
   return (
     <span>
       <span className="is-pulled-left">
@@ -29,19 +27,15 @@ class SingleCustomer extends React.Component<any, any> {
   }
 
   public onView(x) {
+    console.log(x)
     this.setState({
       view: x
     })
   }
 
-  public onSelectSlot(times) {
-    this.props.handleCreateClick(times)
+  public onSelectSlot(x) {
+    console.log(this.props)
   }
-
-  public onSelectedEvent(entry) {
-    this.props.handleEntryClick(entry)
-  } 
-
 
   public render() {
     const minTime = new Date();
@@ -49,8 +43,7 @@ class SingleCustomer extends React.Component<any, any> {
 
     const maxTime = new Date()
     maxTime.setHours(22,0,0)
-
-
+    
     return (
       <div className="" style={{backgroundColor:"#002b36"}}>
         <BigCalendar 
@@ -58,9 +51,7 @@ class SingleCustomer extends React.Component<any, any> {
         view={this.state.view}
         onView={this.onView}
         views={['day', 'work_week', 'week', 'month']}
-        selectable={this.props.selectable}
-        onSelectSlot={(times:any) => this.onSelectSlot(times)}
-        onSelectEvent={(entry:any) => this.onSelectedEvent(entry)}
+        onSelectEvent={(entry:any) => this.onSelectSlot(entry)}
         min={minTime}
         max={maxTime}
         components={{

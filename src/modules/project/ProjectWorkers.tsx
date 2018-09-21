@@ -59,7 +59,7 @@ const ProjectWorkers : React.SFC<any> = (props) => {
                   <figure className="image is-64x64">
                     <img className="is-rounded" src="https://bulma.io/images/placeholders/128x128.png" />
                   </figure>
-                  <p className='is-size-6'>{worker.name}</p>
+                  <p className='is-size-7'>{worker.name}</p>
                   {props.edit ?
                   <Mutation mutation={deleteWorker}>
                     {(deleteWrkr) => (

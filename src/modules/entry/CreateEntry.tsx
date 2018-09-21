@@ -4,6 +4,7 @@ import CalendarWrapper from './CalendarWrapper'
 import { TimePicker, DatePicker } from 'antd'
 import { getProjects, getEntries, getProjectWorkers, createEntry, entriesSubscription } from '../../graphql/queries/queries'
 import { updateEntry, deleteEntry } from '../../graphql/mutations/mutations'
+import { countHours } from '../../helpers/timeHelper'
 import * as moment from 'moment'
 
 import Loading from '../../components/Loading'
@@ -63,7 +64,7 @@ export default class CreateEntry extends React.Component<{}, any> {
 
     return (
       <div className="columns">
-        <div className="column is-2">
+        <div className="column is-2" style={{paddingTop: '47px'}}>
           <Mutation mutation={this.state.edit ? updateEntry : createEntry} onCompleted={() => this.setState({edit: false, initTime: true})}>
           {(create, { loading }) => {
             if(loading) { return <Loading /> }
@@ -72,11 +73,6 @@ export default class CreateEntry extends React.Component<{}, any> {
               const { _id, start, end, description, projectId, workerId } = this.state
               return { _id, start, end, name: this.getNameObject(workerId), description, projectId, workerId }
             }
-
-            const duration = moment.duration(moment(this.state.end).diff(moment(this.state.start)))
-            const hours : any= Math.round(duration.asHours()).toString()
-            const minutes : any = (duration.asHours() % 1 * 60).toString()
-          
 
             return (
               <form
@@ -174,7 +170,7 @@ export default class CreateEntry extends React.Component<{}, any> {
                     <div className="field is-fullwidth">
                       <p className="is-size-7 show-hours">
                         <strong>
-                        {hours === '0' && minutes === '0' ? '' : hours }{minutes === '0' ? (hours === '0' ? '' : ':00h') : ':' + minutes + 'h'}
+                        {countHours(this.state.start, this.state.end)}
                         </strong>
                       </p>
                     </div>
@@ -187,15 +183,16 @@ export default class CreateEntry extends React.Component<{}, any> {
                     </div>
                   </div>
                   <button 
-                    className="button is-medium is-fullwidth top-margin-20 is-primary" 
+                    className="button is-medium is-fullwidth top-margin-20 is-primary is-outlined" 
                     type="submit">
                     {this.state.edit ? 'Update entry' : 'Create entry'}
                   </button>
-                </div>                  
+                </div>
+                {this.state.edit ? 
                 <Mutation mutation={deleteEntry}>
                   {(deleteC) => (
                     <button
-                      className="button is-medium top-margin-20 is-danger"
+                      className="button is-medium top-margin-20 is-danger is-outlined"
                       onClick={(e) => { 
                         e.preventDefault();
                         deleteC({ variables: { _id: this.state._id } 
@@ -204,6 +201,7 @@ export default class CreateEntry extends React.Component<{}, any> {
                       Delete
                     </button>)}
                 </Mutation>
+                : '' }
                 </div>
               </form>
               )
@@ -231,7 +229,7 @@ export default class CreateEntry extends React.Component<{}, any> {
               const entries  = data.entries.map((item: any) => {
                 return {
                   workerId: item.workerId,
-                  title: `${item.name}: ${item.description}`,
+                  title: item.name,
                   start: moment(item.start).toDate(),
                   end: moment(item.end).toDate(),
                   name: item.name,

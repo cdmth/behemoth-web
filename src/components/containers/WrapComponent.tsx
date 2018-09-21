@@ -24,6 +24,7 @@ class WrapComponent extends React.Component<any, any> {
           queryAll={this.props.queryAll}
           subscription={this.props.subscription}
           modulePrefix={this.props.modulePrefix}
+          selectedItemId={this.state.selectedItemId}
         />
         {this.state.selectedItemId === 'close' ? '' :     
         <RightContainer 
