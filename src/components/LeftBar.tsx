@@ -8,7 +8,8 @@ const createCustomer = () => {
         General
       </p>
       <ul className="menu-list">
-        <li><Link to="/">Customers</Link></li>
+        <li><Link to="/">Dashboard</Link></li>
+        <li><Link to="/customers">Customers</Link></li>
         <li><Link to="/projects">Projects</Link></li>
         <li><Link to="/entries">Entries</Link></li>
         <li><Link to="/workers">Workers</Link></li>

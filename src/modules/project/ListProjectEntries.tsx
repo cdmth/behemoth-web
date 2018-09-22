@@ -3,8 +3,8 @@ import * as moment from 'moment'
 import { Query } from 'react-apollo';
 import { entriesByProjectId } from '../../graphql/queries/queries'
 import Loading from '../../components/Loading'
-import { countHours } from '../../helpers/timeHelper'
 import CalendarWrapper from './ProjectCalendarWrapper'
+import Entry from '../../components/partials/Entry'
 
 class QueryComponent extends React.Component<any, any> {
   
@@ -24,17 +24,12 @@ class QueryComponent extends React.Component<any, any> {
 
           return (
             <div className="columns">
-              <div className="column is-4">
+              <div className="column is-3">
                 {data.entriesByProjectId.map((entry:any) => (
-                  <div className="notification is-dark project-entry" key={entry._id}>
-                    <p className='is-size-7'>{entry.name}</p>
-                    <p className='is-size-7'>{moment(entry.start).format('DD.MM.YYYY HH:mm')} - {moment(entry.end).format('DD.MM.YYYY HH:mm')}</p>
-                    <p className="is-size-5"><strong className="strong-alter">{countHours(entry.start, entry.end)}</strong></p>
-                    <p className='is-size-9'>{entry.description}</p>                  
-                  </div>
+                  <Entry key={entry._id} entry={entry} />
                 ))}
             </div>
-            <div className="column is-8">
+            <div className="column is-9">
               <CalendarWrapper
                 events={entries} 
               />

@@ -11,7 +11,7 @@ import Projects from './modules/project/Projects'
 import CreateEntry from './modules/entry/CreateEntry'
 import Workers from './modules/worker/Workers'
 import LeftBar from './components/LeftBar'
-import WrapComponent from './components/containers/WrapComponent';
+import Dashboard from './modules/dashboard/Dashboard';
 
 class App extends React.Component {
 
@@ -25,11 +25,11 @@ class App extends React.Component {
               <LeftBar />
             </div>
             <div className="column container-fluid">
-              <Route exact={true} path="/" component={Customers} />
+            <Route exact={true} path="/" component={Dashboard} />
+            <Route exact={true} path="/customers" component={Customers} />
               <Route path="/projects" component={Projects} />
               <Route path="/entries" component={CreateEntry} />
               <Route path="/workers" component={Workers} />
-              <Route path="/new" component={WrapComponent} />
             </div>
           </div>
         </div>
