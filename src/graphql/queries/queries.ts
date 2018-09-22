@@ -95,7 +95,6 @@ export const entriesByProjectId = gql`
   query entriesByProjectId($projectId: String!) {
     entriesByProjectId(projectId: $projectId) {
       _id
-      name
       workerId
       description
       start
@@ -120,19 +119,23 @@ export const getEntries = gql`
       _id
       projectId
       workerId
-      name
       start
       end
       description
+      worker {
+        name
+      }
     }
   }
 `
 
 export const getProjectWorkers = gql`
-  query getWorkersByProjectId($projectId: String!) {
-    getWorkersByProjectId(projectId: $projectId) {
-      workerId
-      name
+  query project($projectId: String!) {
+    project(_id: $projectId) {
+      workers {
+        _id
+        name
+      }
     }
   }
 `
@@ -142,7 +145,6 @@ export const createEntry = gql`
     createEntry(projectId: $projectId, workerId: $workerId, name: $name, start: $start, end: $end, description: $description) {
       projectId
       workerId
-      name
       start
       end
       description
@@ -156,10 +158,34 @@ export const entriesSubscription = gql`
       _id
       projectId
       workerId
-      name
       start
       end
       description
+    }
+  }
+`
+
+export const deleteWorker = gql`
+  mutation deleteWorkerFromProject($workerId: String!, $projectId: String!) {
+    deleteWorkerFromProject(workerId: $workerId, projectId: $projectId) {
+      message
+    }
+  }
+`
+
+export const projectWorkersSubscription = gql`
+  subscription {
+    projectWorkers {
+      _id
+      name
+    }
+  }
+`
+
+export const addProjectWorker = gql`
+  mutation addWorkerToProject($workerId: String!, $projectId: String!) {
+    addWorkerToProject(workerId: $workerId, projectId: $projectId) {
+      message
     }
   }
 `

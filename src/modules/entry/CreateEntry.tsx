@@ -53,9 +53,13 @@ export default class CreateEntry extends React.Component<{}, any> {
     this.setState({ start, end, edit: false, _id: '', initTime: false})
   }
 
-
   public getNameObject(id, data = this.state.workers) {
-    const index = data.findIndex((i) => i.workerId === id)
+    console.log('this.state.workers', this.state.workers)
+    const index = data.findIndex((i) => {
+      console.log('aasesdasd', i)
+      console.log(i._id, id)
+      return i._id === id
+    })
     return data[index].name || 'No name found on entry'
   }
 
@@ -113,12 +117,16 @@ export default class CreateEntry extends React.Component<{}, any> {
                   <Query 
                     query={getProjectWorkers}
                     variables={{projectId: this.state.projectId}}
-                    onCompleted={(data : any) => this.setState({
-                          workers: data.getWorkersByProjectId,
-                          workerId: data.getWorkersByProjectId[0].workerId, 
-                          name: this.getNameObject(data.getWorkersByProjectId[0].workerId, data.getWorkersByProjectId)
-                        })
-                      }>
+                    onCompleted={(data : any) => {
+                      this.setState({
+                          workers: data.project.workers,
+                          workerId: data.project.workers[0]._id, 
+                          name: data.project.workers[0].name
+                      }, () => {
+                        console.log('this.state', this.state)
+                      })
+
+                      }}>
                     {({ loading, error, data }) => {
                       if (loading) { return <Loading /> }
                       if (error) { return `Error! ${error}`}
@@ -134,8 +142,8 @@ export default class CreateEntry extends React.Component<{}, any> {
                               })}
                               value={this.state.workerId}
                               >
-                              {data.getWorkersByProjectId.map((worker: any) => 
-                                <option label={worker.name} key={worker.workerId} value={worker.workerId} />
+                              {data.project.workers.map((worker: any) => 
+                                <option label={worker.name} key={worker._id} value={worker._id} />
                               )}
                             </select>
                           </div>
@@ -232,7 +240,7 @@ export default class CreateEntry extends React.Component<{}, any> {
                   title: item.name,
                   start: moment(item.start).toDate(),
                   end: moment(item.end).toDate(),
-                  name: item.name,
+                  name: item.worker.name,
                   projectId: item.projectId,
                   _id: item._id,
                   description: item.description

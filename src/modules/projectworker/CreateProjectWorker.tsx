@@ -1,25 +1,7 @@
 import * as React from 'react'
-import gql from "graphql-tag";
-import { Mutation, Query } from "react-apollo";
+import { Mutation, Query } from "react-apollo"
 import { ICreateProjectWorkerProps, ICreateProjectWorkerState } from '../../components/control-interfaces'
-
-const getWorkers = gql`
-  {
-    workers {
-      _id
-      name
-    }
-  }
-`
-
-const addProjectWorker = gql`
-  mutation addWorkerToProject($workerId: String!, $name: String, $projectId: String!) {
-    addWorkerToProject(workerId: $workerId, name: $name, projectId: $projectId) {
-      workerId
-      name
-    }
-  }
-`
+import { addProjectWorker, queryAllWorkers } from '../../graphql/queries/queries'
 
 class CreateProjectWorker extends React.Component<ICreateProjectWorkerProps, ICreateProjectWorkerState> {
   constructor(props: any) {
@@ -66,12 +48,11 @@ class CreateProjectWorker extends React.Component<ICreateProjectWorkerProps, ICr
                   e.preventDefault();
                   create({ variables: { 
                     workerId: this.state.workerId,
-                    name: this.state.workerName,
                     projectId: this.props.selectedItemId
                   }});
                 }}
               >  
-                <Query query={getWorkers} onCompleted={(val) => this.completed(val)}>
+                <Query query={queryAllWorkers} onCompleted={(val) => this.completed(val)}>
                 {({ loading, error, data }) => {
                   if (loading) {
                     return 'Loading...'

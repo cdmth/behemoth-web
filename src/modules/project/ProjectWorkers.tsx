@@ -1,32 +1,6 @@
 import * as React from 'react'
 import { Query, Mutation } from 'react-apollo'
-import gql from 'graphql-tag'
-
-const getProjectWorkers = gql`
-  query getWorkersByProjectId($projectId: String!) {
-    getWorkersByProjectId(projectId: $projectId) {
-      workerId
-      name
-    }
-  }
-`
-
-const deleteWorker = gql`
-  mutation deleteWorkerFromProject($workerId: String!, $projectId: String!) {
-    deleteWorkerFromProject(workerId: $workerId, projectId: $projectId) {
-      message
-    }
-  }
-`
-
-const projectWorkersSubscription = gql`
-  subscription {
-    projectWorkers {
-      workerId
-      name
-    }
-  }
-`
+import { getProjectWorkers, deleteWorker, projectWorkersSubscription } from '../../graphql/queries/queries'
 
 let unsubscribe: any = null
 
@@ -54,8 +28,8 @@ const ProjectWorkers : React.SFC<any> = (props) => {
 
           return (
             <div>
-              {data.getWorkersByProjectId.map((worker: any) => (
-                <div className="card user-card" key={worker.workerId}>
+              {data.project.workers.map((worker: any) => (
+                <div className="card user-card" key={worker._id}>
                   <figure className="image is-64x64">
                     <img className="is-rounded" src="https://bulma.io/images/placeholders/128x128.png" />
                   </figure>
@@ -67,7 +41,7 @@ const ProjectWorkers : React.SFC<any> = (props) => {
                         <form
                           onSubmit={e => {
                             e.preventDefault();
-                            deleteWrkr({ variables: { workerId: worker.workerId, projectId: props.selectedItemId}});
+                            deleteWrkr({ variables: { workerId: worker._id, projectId: props.selectedItemId}});
                           }}
                         >
                           <div className="field">
