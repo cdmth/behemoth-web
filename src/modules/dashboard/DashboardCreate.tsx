@@ -83,6 +83,7 @@ export default class DashboardCreate extends React.Component<{}, any> {
               <div className="">
                 <Query
                   query={getProjects} 
+                  fetchPolicy={"cache-and-network"}
                   onCompleted={(data : any) => this.setState({projectId: data.projects[0]._id})}>
                   {({ loading, error, data}) => {
                     if (loading) { return <Loading /> }
@@ -111,9 +112,9 @@ export default class DashboardCreate extends React.Component<{}, any> {
                   query={getProjectWorkers}
                   variables={{projectId: this.state.projectId}}
                   onCompleted={(data : any) => this.setState({
-                        workers: data.getWorkersByProjectId,
-                        workerId: data.getWorkersByProjectId[0].workerId, 
-                        name: this.getNameObject(data.getWorkersByProjectId[0].workerId, data.getWorkersByProjectId)
+                        workers: data.project.workers,
+                        workerId: data.project.workers[0].workerId, 
+                        name: this.getNameObject(data.project.workers[0].workerId, data.project.workers)
                       })
                     }>
                   {({ loading, error, data }) => {
@@ -131,8 +132,8 @@ export default class DashboardCreate extends React.Component<{}, any> {
                             })}
                             value={this.state.workerId}
                             >
-                            {data.getWorkersByProjectId.map((worker: any) => 
-                              <option label={worker.name} key={worker.workerId} value={worker.workerId} />
+                            {data.project.workers.map((worker: any) => 
+                              <option label={worker.name} key={worker._id} value={worker._id} />
                             )}
                           </select>
                         </div>

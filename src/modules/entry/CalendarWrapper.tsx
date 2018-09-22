@@ -8,11 +8,10 @@ import { countHours } from '../../helpers/timeHelper'
 BigCalendar.momentLocalizer(moment)
 
 function Event({ event } : any) {
-
   return (
     <span>
       <span className="is-pulled-left">
-        <p className="is-size-5">{event.title}</p>
+        <p className="is-size-5">{event.name}</p>
         <p className="is-size-6">{event.description}</p>
       </span>
       <p className="is-size-5 is-pulled-right"><strong className="strong-alter">{countHours(event.start, event.end)}</strong></p>

@@ -19,9 +19,6 @@ const eventStyles = {
 }
 
 const Event = ({ event } : any) => {
-
-  console.log(event)
-
   const factor = 3.5
   const radius = durationInHours(event.start, event.end)
   
@@ -46,7 +43,6 @@ class DashboardCalendar extends React.Component<any, any> {
   }
 
   public onView(x) {
-    console.log(x)
     this.setState({
       view: x
     })

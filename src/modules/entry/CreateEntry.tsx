@@ -54,10 +54,7 @@ export default class CreateEntry extends React.Component<{}, any> {
   }
 
   public getNameObject(id, data = this.state.workers) {
-    console.log('this.state.workers', this.state.workers)
     const index = data.findIndex((i) => {
-      console.log('aasesdasd', i)
-      console.log(i._id, id)
       return i._id === id
     })
     return data[index].name || 'No name found on entry'
@@ -89,12 +86,13 @@ export default class CreateEntry extends React.Component<{}, any> {
               <div className="field add-bar">
                 <div className="">
                   <Query
-                    query={getProjects} 
-                    onCompleted={(data : any) => this.setState({projectId: data.projects[0]._id})}>
+                    query={getProjects}
+                    fetchPolicy={"cache-and-network"}
+                    onCompleted={(data : any) => {
+                      this.setState({projectId: data.projects[0]._id})}}>
                     {({ loading, error, data}) => {
                       if (loading) { return <Loading /> }
                       if (error) { return `Error! ${error}`}
-
                       return (
                         <div className="field">
                           <div className="select is-fullwidth">
@@ -117,15 +115,12 @@ export default class CreateEntry extends React.Component<{}, any> {
                   <Query 
                     query={getProjectWorkers}
                     variables={{projectId: this.state.projectId}}
-                    onCompleted={(data : any) => {
+                    onCompleted={async (data : any) => {
                       this.setState({
                           workers: data.project.workers,
                           workerId: data.project.workers[0]._id, 
                           name: data.project.workers[0].name
-                      }, () => {
-                        console.log('this.state', this.state)
-                      })
-
+                        })
                       }}>
                     {({ loading, error, data }) => {
                       if (loading) { return <Loading /> }
