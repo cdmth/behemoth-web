@@ -1,0 +1,4 @@
+.chartjs-render-monitor {
+  -webkit-animation: chartjs-render-animation 0.1s;
+  animation: chartjs-render-animation 0.1s;
+}
