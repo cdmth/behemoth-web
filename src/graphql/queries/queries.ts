@@ -100,6 +100,9 @@ export const entriesByProjectId = gql`
       start
       end
       projectId
+      worker {
+        name
+      }
     }
   }
 `
