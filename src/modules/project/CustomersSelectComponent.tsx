@@ -1,10 +1,10 @@
 import * as React from 'react'
 import { Query } from "react-apollo";
-import { ICustomerSelectComponent } from '../../components/control-interfaces'
+// import { ICustomerSelectComponent } from '../../components/control-interfaces'
 import { queryAllCustomers } from '../../graphql/queries/queries'
 import Loading from '../../components/Loading'
 
-const CustomersSelectComponent : React.SFC<ICustomerSelectComponent> = (props) => (
+const CustomersSelectComponent : React.SFC<any> = (props) => (
   <Query query={queryAllCustomers}>
     {({ loading, error, data }) => {
       if (loading) { return <Loading /> }

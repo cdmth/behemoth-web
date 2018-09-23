@@ -8,7 +8,8 @@ class CreateProjectWorker extends React.Component<ICreateProjectWorkerProps, ICr
     super(props)
     this.state = {
       workerName: '',
-      workerId: ''
+      workerId: '',
+      rate: 0
     }
   }
 
@@ -18,6 +19,12 @@ class CreateProjectWorker extends React.Component<ICreateProjectWorkerProps, ICr
     this.setState({
       workerName: e.nativeEvent.target[index].text,
       workerId: e.target.value
+    })
+  }
+
+  public handleRateChange = (e: any) => {
+    this.setState({
+      rate: parseFloat(e.target.value)
     })
   }
 
@@ -48,7 +55,8 @@ class CreateProjectWorker extends React.Component<ICreateProjectWorkerProps, ICr
                   e.preventDefault();
                   create({ variables: { 
                     workerId: this.state.workerId,
-                    projectId: this.props.selectedItemId
+                    projectId: this.props.selectedItemId,
+                    rate: this.state.rate
                   }});
                 }}
               >  
@@ -63,14 +71,20 @@ class CreateProjectWorker extends React.Component<ICreateProjectWorkerProps, ICr
                   }
 
                   return (
-                    <div className="field">
-                      <label className="label">Select worker</label>
-                      <div className="select">
-                        <select onChange={e => this.handleWorkerChange(e)} defaultValue={this.state.workerId}>
-                          {data.workers.map((worker : any) => (
-                            <option key={worker._id} value={worker._id}>{worker.name}</option>
-                          ))}
-                        </select>
+                    <div> 
+                      <div className="field">
+                        <label className="label">Select worker</label>
+                        <div className="select">
+                          <select onChange={e => this.handleWorkerChange(e)} defaultValue={this.state.workerId}>
+                            {data.workers.map((worker : any) => (
+                              <option key={worker._id} value={worker._id}>{worker.name}</option>
+                            ))}
+                          </select>
+                        </div>
+                      </div>
+                      <div className="field">
+                        <label className="label">Rate</label>
+                        <input onChange={e => this.handleRateChange(e)} type="number" className="input" placeholder="Rate"/>
                       </div>
                     </div>
                   )
