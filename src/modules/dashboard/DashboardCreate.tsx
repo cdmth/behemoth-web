@@ -108,42 +108,44 @@ export default class DashboardCreate extends React.Component<{}, any> {
                     }}
                 </Query>
 
-                <Query 
-                  query={getProjectWorkers}
-                  fetchPolicy={"cache-and-network"}
-                  variables={{projectId: this.state.projectId}}
-                  onCompleted={(data : any) => {
-                        console.log('id', data.project.workers[0]._id)
-                        this.setState({
-                        workers: data.project.workers,
-                        workerId: data.project.workers[0]._id, 
-                        name: this.getNameObject(data.project.workers[0]._id, data.project.workers)
-                      })}
-                    }>
-                  {({ loading, error, data }) => {
-                    if (loading) { return <Loading /> }
-                    if (error) { return `Error! ${error}`}
-                  
-                    return (
-                      <div className="field">
-                        <div className="select is-fullwidth">
-                          <select
-                            className="input is-fullwidth"
-                            onChange={(event : any) => this.setState({
-                              workerId: event.target.value, 
-                              name: this.getNameObject(event.target.value)
-                            })}
-                            value={this.state.workerId}
-                            >
-                            {data.project.workers.map((worker: any) => 
-                              <option label={worker.name} key={worker._id} value={worker._id} />
-                            )}
-                          </select>
+                { this.state.projectId !== '' ?
+                  <Query 
+                    query={getProjectWorkers}
+                    fetchPolicy={"cache-and-network"}
+                    variables={{projectId: this.state.projectId}}
+                    onCompleted={(data : any) => {
+                          console.log('id', data.project.workers[0]._id)
+                          this.setState({
+                          workers: data.project.workers,
+                          workerId: data.project.workers[0]._id, 
+                          name: this.getNameObject(data.project.workers[0]._id, data.project.workers)
+                        })}
+                      }>
+                    {({ loading, error, data }) => {
+                      if (loading) { return <Loading /> }
+                      if (error) { return `Error! ${error}`}
+                    
+                      return (
+                        <div className="field">
+                          <div className="select is-fullwidth">
+                            <select
+                              className="input is-fullwidth"
+                              onChange={(event : any) => this.setState({
+                                workerId: event.target.value, 
+                                name: this.getNameObject(event.target.value)
+                              })}
+                              value={this.state.workerId}
+                              >
+                              {data.project.workers.map((worker: any) => 
+                                <option label={worker.name} key={worker._id} value={worker._id} />
+                              )}
+                            </select>
+                          </div>
                         </div>
-                      </div>
-                    )
-                  }}
-                </Query>
+                      )
+                    }}
+                  </Query>
+                : ''}
 
                 <div className="field">
                   <textarea 

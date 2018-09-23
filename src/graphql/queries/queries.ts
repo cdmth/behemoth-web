@@ -2,7 +2,7 @@ import gql from "graphql-tag";
 
 // Get all customers
 export const queryAllCustomers = gql`
-  {
+  query Customers {
     customers {
       _id
       name
@@ -21,7 +21,7 @@ export const queryCustomer = gql`
 
 // Customers subscription
 export const customersSubscription = gql`
-  subscription {
+  subscription CustomerSubscription {
     customers {
       _id
       name
@@ -31,7 +31,7 @@ export const customersSubscription = gql`
 
 // Get all workers
 export const queryAllWorkers = gql`
-  {
+  query Workers {
     workers {
       _id
       name
@@ -60,7 +60,7 @@ export const workersSubscription = gql`
 
 // Get all projects by customer
 export const queryAllProjects= gql`
-  {
+  query CustomerProjects{
     customers {
       _id
       name
@@ -108,7 +108,7 @@ export const entriesByProjectId = gql`
 `
 
 export const getProjects = gql`
-  {
+  query Projects{
     projects {
       _id
       name
@@ -117,7 +117,7 @@ export const getProjects = gql`
 `
 
 export const getEntries = gql`
-  {
+  query Entries {
     entries {
       _id
       projectId
