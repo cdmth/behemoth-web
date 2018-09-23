@@ -144,8 +144,8 @@ export const getProjectWorkers = gql`
 `
 
 export const createEntry = gql`
-  mutation CreateEntry($projectId: String!, $workerId: String!, $name: String, $start: String, $end: String, $description: String) {
-    createEntry(projectId: $projectId, workerId: $workerId, name: $name, start: $start, end: $end, description: $description) {
+  mutation CreateEntry($projectId: String!, $workerId: String!, $start: String, $end: String, $description: String) {
+    createEntry(projectId: $projectId, workerId: $workerId, start: $start, end: $end, description: $description) {
       projectId
       workerId
       start

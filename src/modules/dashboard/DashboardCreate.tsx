@@ -54,7 +54,7 @@ export default class DashboardCreate extends React.Component<{}, any> {
 
 
   public getNameObject(id, data = this.state.workers) {
-    const index = data.findIndex((i) => i.workerId === id)
+    const index = data.findIndex((i) => i._id === id)
     return data[index].name || 'No name found on entry'
   }
 
@@ -68,7 +68,7 @@ export default class DashboardCreate extends React.Component<{}, any> {
 
           const entry = () => {
             const { _id, start, end, description, projectId, workerId } = this.state
-            return { _id, start, end, name: this.getNameObject(workerId), description, projectId, workerId }
+            return { _id, start, end, description, projectId, workerId }
           }
 
           return (
@@ -110,12 +110,15 @@ export default class DashboardCreate extends React.Component<{}, any> {
 
                 <Query 
                   query={getProjectWorkers}
+                  fetchPolicy={"cache-and-network"}
                   variables={{projectId: this.state.projectId}}
-                  onCompleted={(data : any) => this.setState({
+                  onCompleted={(data : any) => {
+                        console.log('id', data.project.workers[0]._id)
+                        this.setState({
                         workers: data.project.workers,
-                        workerId: data.project.workers[0].workerId, 
-                        name: this.getNameObject(data.project.workers[0].workerId, data.project.workers)
-                      })
+                        workerId: data.project.workers[0]._id, 
+                        name: this.getNameObject(data.project.workers[0]._id, data.project.workers)
+                      })}
                     }>
                   {({ loading, error, data }) => {
                     if (loading) { return <Loading /> }
