@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Link } from "react-router-dom";
+import { Link } from "react-router-dom"
 
 const createCustomer = () => {
   return (
@@ -13,6 +13,7 @@ const createCustomer = () => {
         <li><Link to="/projects">Projects</Link></li>
         <li><Link to="/entries">Entries</Link></li>
         <li><Link to="/workers">Workers</Link></li>
+        <li><Link to="/bills">Bills</Link></li>
       </ul>
     </aside>
   );

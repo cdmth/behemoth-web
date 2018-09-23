@@ -108,3 +108,15 @@ mutation deleteEntry($_id: String!) {
   }
 }
 `
+
+export const createBill = gql`
+mutation CreateBill($customerId: String!, $projectId: String!, $billingPeriodStart: String!, $billingPeriodEnd: String!) {
+  createBill(customerId: $customerId, projectId: $projectId, billingPeriodStart: $billingPeriodStart, billingPeriodEnd: $billingPeriodEnd) {
+    billingPeriodStart
+    billingPeriodEnd
+    hours
+    price
+    status
+  }
+}
+`

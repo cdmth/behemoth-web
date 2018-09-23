@@ -186,8 +186,8 @@ export const projectWorkersSubscription = gql`
 `
 
 export const addProjectWorker = gql`
-  mutation addWorkerToProject($workerId: String!, $projectId: String!) {
-    addWorkerToProject(workerId: $workerId, projectId: $projectId) {
+  mutation addWorkerToProject($workerId: String!, $projectId: String!, $rate: Float) {
+    addWorkerToProject(workerId: $workerId, projectId: $projectId, rate: $rate) {
       message
     }
   }

@@ -121,4 +121,5 @@ export interface ICreateProjectWorkerProps {
 export interface ICreateProjectWorkerState {
   workerId: string
   workerName: string
+  rate: number
 }
