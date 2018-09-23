@@ -12,7 +12,7 @@ import CreateEntry from './modules/entry/CreateEntry'
 import Workers from './modules/worker/Workers'
 import LeftBar from './components/LeftBar'
 import Dashboard from './modules/dashboard/Dashboard'
-import CreateBill from './modules/bill/CreateBill'
+import BillLayout from './modules/bill/BillLayout'
 
 class App extends React.Component {
 
@@ -31,7 +31,7 @@ class App extends React.Component {
               <Route path="/projects" component={Projects} />
               <Route path="/entries" component={CreateEntry} />
               <Route path="/workers" component={Workers} />
-              <Route path="/bills" component={CreateBill} />
+              <Route path="/bills" component={BillLayout} />
             </div>
           </div>
         </div>

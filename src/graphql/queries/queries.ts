@@ -192,3 +192,33 @@ export const addProjectWorker = gql`
     }
   }
 `
+
+export const getBills = gql`
+query Bills {
+  bills {
+    _id
+    projectId
+    customerId
+    billingPeriodStart
+    billingPeriodEnd
+    hours
+    price
+    status
+  }
+}
+`
+
+export const getBill = gql`
+query Bill($billId: String!) {
+  bill(billId: $billId) {
+    _id
+    projectId
+    customerId
+    billingPeriodStart
+    billingPeriodEnd
+    hours
+    price
+    status
+  }
+}
+`
