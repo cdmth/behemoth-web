@@ -222,3 +222,22 @@ query Bill($billId: String!) {
   }
 }
 `
+
+export const getProjectsAndEntries = gql`
+query {
+  projects {
+    _id
+    customerId
+    name
+    entries {
+      start 
+      end
+      description
+      price
+      bill {
+        status
+      }
+    }
+  }
+}
+`

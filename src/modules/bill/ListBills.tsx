@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Query } from 'react-apollo'
 import { Link } from 'react-router-dom'
-
+import Loading from '../../components/Loading'
 import { getBills } from '../../graphql/queries/queries'
 
 const ListBills = () => {
@@ -9,11 +9,11 @@ const ListBills = () => {
     <div>
     <Query query={getBills} >
       {({ error, loading, data }) => {
-        if(loading) { return "LOADIING" }
-        if(error) {return error }
+        if(loading) { return <Loading /> }
+        if(error) {return `Error! ${error}` }
 
         return (
-        data.bills.map(bill => (<Link key={bill._id} to={`/bills/${bill._id}`}>{bill._id}</Link>))
+          data.bills.map(bill => (<Link key={bill._id} to={`/bills/${bill._id}`}>{bill._id}</Link>))
         )
       }} 
     </Query>
