@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { Query, Mutation } from 'react-apollo'
+import { Link } from 'react-router-dom'
 import Loading from '../../components/Loading'
 import { getProjectsAndEntries } from '../../graphql/queries/queries'
 import { createBill } from '../../graphql/mutations/mutations'
@@ -44,13 +45,18 @@ const createBillFrom = () => {
               <h1>{project.name}</h1>
               <ul>
                 {project.entries ? project.entries.map(entry => (
-                  <li>{entry.bill ? entry.bill.status : 'ADD ME TO BILL!'}</li>
+                  <li>
+                    <span>Start {entry.start}</span> - <span>End {entry.end}</span>
+                    <span>$$$ {entry.price}</span>
+                    <span>Bill status: {entry.bill ? entry.bill.status : 'ADD ME TO BILL!'}</span>
+                    {entry.bill ? <Link key={entry.bill._id} to={`/bills/${entry.bill._id}`}>{entry.bill._id}</Link> : ''}
+                  </li>
                 )) : ''} 
               </ul>
               <Mutation mutation={createBill}>
                 {(create, {loading}) => {
                   if (loading) { return <Loading /> }
-                  return <button onClick={() => create({variables: createBillArgs(project)})}>Create bill €</button> 
+                  return <button onClick={() => create({variables: createBillArgs(project)})}>Add unbilled entries to bill</button> 
                 }}
               </Mutation> 
             </div>)

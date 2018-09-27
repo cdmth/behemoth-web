@@ -235,6 +235,7 @@ query {
       description
       price
       bill {
+        _id
         status
       }
     }
