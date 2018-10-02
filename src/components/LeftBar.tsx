@@ -14,6 +14,7 @@ const createCustomer = () => {
         <li><Link to="/entries">Entries</Link></li>
         <li><Link to="/workers">Workers</Link></li>
         <li><Link to="/bills">Bills</Link></li>
+        <li><Link to="/login">Login</Link></li>
       </ul>
     </aside>
   );

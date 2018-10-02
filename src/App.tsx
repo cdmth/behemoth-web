@@ -13,6 +13,7 @@ import Workers from './modules/worker/Workers'
 import LeftBar from './components/LeftBar'
 import Dashboard from './modules/dashboard/Dashboard'
 import BillLayout from './modules/bill/BillLayout'
+import Login from './modules/login/Login'
 
 class App extends React.Component {
 
@@ -28,6 +29,7 @@ class App extends React.Component {
             <div className="column container-fluid">
               <Route exact={true} path="/" component={Dashboard} />
               <Route exact={true} path="/customers" component={Customers} />
+              <Route path="/login" component={Login} />
               <Route path="/projects" component={Projects} />
               <Route path="/entries" component={CreateEntry} />
               <Route path="/workers" component={Workers} />

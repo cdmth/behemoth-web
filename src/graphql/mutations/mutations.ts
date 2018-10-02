@@ -120,3 +120,19 @@ mutation CreateBill($customerId: String!, $projectId: String!, $billingPeriodSta
   }
 }
 `
+
+export const createAccount = gql`
+mutation CreateAccount($email: String!, $password: String!) {
+  createAccount(email: $email, password: $password) {
+    token
+  }
+}
+`
+
+export const login = gql`
+mutation Login($email: String!, $password: String!) {
+  login(email: $email, password: $password) {
+    token
+  }
+}
+`
